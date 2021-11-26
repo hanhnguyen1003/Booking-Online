@@ -1,0 +1,219 @@
+@model List<Producer>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="page-header">
+    <div class="row">
+        <div class="col-sm-7 col-auto">
+            <h3 class="page-title">Hoạt chất</h3>
+            <ul class="breadcrumb">
+                <li class="breadcrumb-item"><a href="index.html">Trang chủ</a></li>
+                <li class="breadcrumb-item active">Nhà sản xuất</li>
+            </ul>
+        </div>
+        <div class="col-sm-5 col">
+            <a href="#Add_Proc" data-toggle="modal" class="btn btn-primary float-right mt-2">Thêm nhà sản xuất</a>
+        </div>
+    </div>
+</div>
+<!-- /Page Header -->
+<div class="row">
+    <div class="col-sm-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-hover table-center mb-0">
+                        <thead>
+                            <tr>
+                                <th>Mã NSX</th>
+                                <th>Tên NSX</th>
+                                <th class="text-right"></th>
+                            </tr>
+                        </thead>
+                        <tbody id="sheet">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /Page Wrapper -->
+<!-- Add Modal -->
+<div class="modal fade" id="Add_Proc" aria-hidden="true" role="dialog">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Thêm NSX</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="row form-row">
+                        <div class="col-12 col-sm-6">
+                            <div class="form-group">
+                                <label>Mã NSX</label>
+                                <div>
+                                    <input type="text" class="form-control" id="aidproc" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-6">
+                            <div class="form-group">
+                                <label>Tên NSX</label>
+                                <div>
+                                    <input type="text" class="form-control" id="aproc" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <a class="btn btn-primary btn-block" onclick="saveAdd()">Lưu</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /ADD Modal -->
+<!-- Edit Details Modal -->
+<div class="modal fade" id="Edit_Proc" aria-hidden="true" role="dialog">
+</div>
+<!-- /Edit Details Modal -->
+<!-- Delete Modal -->
+<div class="modal fade" id="delete_modal" aria-hidden="true" role="dialog">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="form-content p-2">
+                    <h4 class="modal-title">Xóa</h4>
+                    <p class="mb-4">Bạn chắc chắn muốn xóa?</p>
+                    <button type="button" class="btn btn-primary" onclick="deleteProc()" id="delete">Xóa</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Hủy</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    var j = jQuery.noConflict();
+    j(document).ready(() => {
+        showProducer();
+    })
+    var showProducer = () => {
+        j.post('/Admin/Producer/GetProducer', null, (d) => {
+            let str = "";
+            for (var i = 0; i < d.length; i++) {
+                str += `<tr idProducer="${d[i].idProducer}" nameProducer="${d[i].nameProducer}"}">
+                                    <td>${d[i].idProducer}</td>
+                                    <td>${d[i].nameProducer}</td>
+                                    <td class="text-right">
+                                        <div class="actions">
+                                            <a class="btn btn-sm bg-success-light" onclick="showEditModal(this)" data-toggle="modal" href="#Edit_Proc">
+                                                <i class="fe fe-pencil"></i> Sửa
+                                            </a>
+                                            <a data-toggle="modal" onclick="showModal('${d[i].idProducer}')" class="btn btn-sm bg-danger-light">
+                                                <i class="fe fe-trash"></i> Xóa
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>`
+            }
+            sheet.innerHTML = str
+        })
+    }
+    var showEditModal = (e) => {
+        console.log({ e })
+        let tr = e.parentNode.parentNode.parentNode;
+        str = `  <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Cập nhật NSX</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="row form-row">
+                        <div class="col-12 col-sm-6">
+                            <div class="form-group">
+                                <label>Mã NSX</label>
+                                <div>
+                                    <input type="text" value="${j(tr).attr('idProducer')}" class="form-control" id="eidproc"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-6">
+                            <div class="form-group">
+                                <label>Tên NSX</label>
+                                <div>
+                                    <input type="text" class="form-control" id="eproc" value="${j(tr).attr('nameProducer')}" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <a class="btn btn-primary btn-block" onclick="saveEdit()">Lưu</a>
+                </form>
+            </div>
+        </div>
+    </div>`
+        document.getElementById('Edit_Proc').innerHTML = str;
+    }
+    //hien modal xoa
+    var showModal = (id) => {
+        j('#delete_modal').modal();
+        j('#delete').data('proc', id)
+    }
+    //ham xoa
+    var deleteProc = () => {
+        //console.log(e)
+        console.log(j('#delete').data('proc'))
+        j.post('/Admin/Producer/Delete', { id: j('#delete').data('proc') }, (d) => {
+            console.log({ d })
+            //window.location.reload();
+            j(`[idproducer="${j('#delete').data('proc')}"]`).remove();
+
+            j('#delete_modal').modal('hide');
+
+        })
+    }
+    var saveEdit = () => {
+        obj = {
+            idProducer: document.getElementById('eidproc').value,
+            nameProducer: document.getElementById('eproc').value
+        }
+        console.log(obj);
+        j.post('/Admin/Producer/Edit', { obj: obj }, (d) => {
+            console.log({ d })
+            //window.location.reload();
+            showProducer()
+            j('#Edit_Proc').modal('hide')
+        })
+
+    }
+    var saveAdd = () => {
+        obj = {
+            idProducer: document.getElementById('aidproc').value,
+            nameProducer: document.getElementById('aproc').value
+        }
+        j.post('/Admin/Producer/Create', { obj: obj }, (d) => {
+            console.log({ d })
+            if (d != 0) {
+                obj = {
+                    idProducer: document.getElementById('aidproc').value,
+                    nameProducer: document.getElementById('aproc').value
+                }
+
+                showProducer()
+                document.getElementById('aidproc').value = ""
+                document.getElementById('aproc').value = ""
+                j('#Add_Proc').modal('hide')
+            }
+        })
+    }
+
+</script>
+

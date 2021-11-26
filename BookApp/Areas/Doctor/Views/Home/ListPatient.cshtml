@@ -1,0 +1,81 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/Doctor/Views/Shared/_LayoutDoctor.cshtml";
+    List<Patients> patients = ViewBag.patients;
+}
+
+<!-- doccure/my-patients.html  30 Nov 2019 04:12:09 GMT -->
+
+<style>
+    .appointments .appointment-list {
+        background-color: #fff;
+        border: 1px solid #f0f0f0;
+        border-radius: 4px;
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        -ms-flex-wrap: wrap;
+        flex-wrap: wrap;
+        margin-bottom: 20px;
+        padding: 20px;
+    }
+</style>
+
+<!-- Main Wrapper -->
+<div class="main-wrapper">
+
+    <div class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12 col-lg-12 col-xl-12">
+                    <div class="row row-grid">
+                        @foreach (var item in patients)
+                        {
+                            <div class="col-md-12 col-lg-12 col-xl-12">
+                                <div class="appointments">
+                                    <div class="appointment-list">
+                                        <div class="profile-info-widget">
+
+                                            <div class="profile-det-info">
+                                                <h3>@item.NamePatient</h3>
+                                                <div class="patient-details">
+
+                                                    <h5>Điện thoại:@item.SubPhone</h5>
+                                                    <h5><i class="fas fa-map-marker-alt"></i>@item.AddP</h5>
+
+                                                    <h5>Ngày sinh: @string.Format("{0:dd/MM/yyyy}", item.DOB)</h5>
+                                                    <h5>Giới tính: @(item.SexPatient==true?"Nữ":"Nam")</h5>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        }
+
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+
+    </div>
+    <!-- /Page Content -->
+    <!-- Footer -->
+    <!-- /Footer -->
+
+</div>
+<script>
+    var j = jQuery.noConflict()
+    j(document).ready(() => {
+        j.post('/users/auth/GetUserInfo', null, (d) => {
+            console.log(d)
+            username.innerText = d;
+        })
+    })
+</script>
+
+

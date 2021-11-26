@@ -1,0 +1,92 @@
+﻿@{
+    Layout = "~/Areas/Patient/Views/Shared/_LayoutPA.cshtml";
+}
+<head>
+    <style>
+
+        .bd-callout-info {
+            background: #fff;
+        }
+
+        .bd-callout {
+            padding: 1rem;
+            margin-top: 1.25rem;
+            margin-bottom: 1.25rem;
+            border: 1px solid #eee;
+            border-left-width: .25rem;
+            border-radius: .25rem;
+            border-left-color: orange;
+        }
+
+        h2, h3 {
+            font-family: Arial,sans-serif;
+            color: #15558d;
+            position: relative;
+            font-weight: 700;
+        }
+
+        .ml-4, .mx-4 {
+            margin-left: 1.5rem !important;
+        }
+        .line{
+            width:130px;
+        }
+    </style>
+</head>
+<section class="comp-section">
+    <div class="comp-header">
+        <h3 class="comp-title">QUY TRÌNH</h3>
+        <div class="line"></div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <h2 class="text-xl-center">QUY TRÌNH ĐĂNG KÝ KHÁM BỆNH THEO HẸN</h2><br />
+                    <ul>
+                        <li>
+                            <h3>BƯỚC 1: ĐẶT LỊCH KHÁM</h3>
+                            <div>
+                                <p>> Đăng nhập phần mềm trên web hoặc ứng dụng di động.</p>
+                                <p>> Chọn hình thức đặt khám: Theo ngày hoặc theo bác sĩ.</p>
+                                <p>> Nhập thông tin bệnh nhân: Bằng số hồ sơ hoặc tạo mới.</p>
+                                <p>> Chọn thông tin khám: Chuyên khoa, bác sĩ, ngày khám, giờ khám và có BHYT hay không.</p>
+                            </div>
+                            <h3>BƯỚC 2: THANH TOÁN TIỀN KHÁM</h3>
+                            <p>> Chọn loại thẻ thanh toán: Thẻ khám bệnh của bệnh viện Đại Học Y Dược TPHCM, thẻ thanh toán quốc tế hoặc thẻ ATM nội địa.</p>
+                            <p>> Kiểm tra tiền khám, các loại phí và tổng tiền thanh toán.</p>
+                            <p>> Nhập thông tin thẻ để tiến hành thanh toán.</p>
+                            <div class="bd-callout bd-callout-info">
+                                <strong>Lưu ý:</strong>
+                                <p class="font-italic">- Thanh toán bằng thẻ khám bệnh của Bệnh viện Đại học Y Dược TPHCM, phí tiện ích sẽ có mức thấp nhất.</p>
+                                <p class="font-italic">- Đối với thẻ khám Bệnh viện Đại học Y Dược TPHCM, vui lòng đăng ký chức năng thanh toán trực tuyến tại các chi nhánh Vietinbank trong cả nước, trước khi sử dụng.</p>
+                            </div>
+                            <h3>BƯỚC 3: XÁC NHẬN NGƯỜI BỆNH ĐẾN BỆNH VIỆN KHÁM THEO HẸN</h3>
+                            <p>> Sau khi đặt khám thành công phiếu khám điện tử sẽ được gửi ngay qua email, tin nhắn sms và trên phần mềm.</p>
+                            <p>><b> Đến ngày khám</b></p>
+                            <p class="ml-4">> Người bệnh không BHYT sẽ đến trực tiếp phòng khám trước giờ hẹn 15-30 phút để khám bệnh.</p>
+                            <p class="ml-4">> Người bệnh khám BHYT vui lòng đến quầy 12,13,14 khu A trước giờ hẹn 15-30 phút để xác nhận bảo hiểm trước khi vào phòng khám.</p>
+                            <h3>BƯỚC 4: KHÁM VÀ THỰC HIỆN CẬN LÂM SÀNG</h3>
+                            <p>> Người bệnh khám tại các phòng khám chuyên khoa theo thông tin khám đã đặt.</p>
+                            <p>> Thực hiện cận lâm sàng (nếu có) và đóng phí tại các quầy thu ngân hoặc trừ vào tài khoản thẻ khám bệnh (nếu có).</p>
+                            <p>> Khi đủ kết quả cận lâm sàng, người bệnh quay lại phòng khám gặp Bác sĩ nhận toa thuốc.</p>
+                            <h3>BƯỚC 5: NHẬN THUỐC</h3>
+                            <p>> <b>Người bệnh có BHYT:</b> Thực hiện kết toán BHYT tại quầy 17,18,19,20 tầng trệt khu A và nhận thuốc tại nhà thuốc khu B.</p>
+                            <p>> <b>Người bệnh không có BHYT:</b> Đến nhà thuốc khu A hoặc khu B mua thuốc, thanh toán tiền thuốc tại quầy hoặc trừ vào tài khoản thẻ khám bệnh (nếu có).</p>
+                            <h3>BƯỚC 6: ĐẶT LỊCH TÁI KHÁM</h3>
+                            <p>> Sử dụng phần mềm đặt hẹn tái khám như BƯỚC 1 và BƯỚC 2 để nhận phiếu khám điện tử.</p>
+                            <div class="bd-callout bd-callout-info">
+                                <strong>Lưu ý:</strong>
+                                <p class="font-italic">> Chọn bác sĩ khám và ngày tái khám theo thông tin trên toa thuốc.</p>
+                                <p class="font-italic">> Nhập thông tin người bệnh bằng số hồ sơ trên toa thuốc (không được tạo mới).</p>
+                            </div>
+                        </li>
+                    </ul>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+

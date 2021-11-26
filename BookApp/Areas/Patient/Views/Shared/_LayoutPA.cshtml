@@ -1,0 +1,300 @@
+﻿
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- doccure/components.html  30 Nov 2019 04:12:19 GMT -->
+<head>
+    <meta charset="utf-8">
+    <title>Doccure</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+
+    <!-- Favicons -->
+    <link href="/doc_assets/img/favicon.png" rel="icon">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="/doc_assets/css/bootstrap.min.css">
+
+    <!-- Fontawesome CSS -->
+    <link rel="stylesheet" href="/doc_assets/plugins/fontawesome/css/fontawesome.min.css">
+    <link rel="stylesheet" href="/doc_assets/plugins/fontawesome/css/all.min.css">
+
+    <!-- Main CSS -->
+    <link rel="stylesheet" href="/doc_assets/css/style.css">
+    <script>
+        function checkObject(obj) {
+            for (x in obj) return false;
+            return true;
+        }
+    </script>
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+        <script src="/doc_assets/js/html5shiv.min.js"></script>
+        <script src="/doc_assets/js/respond.min.js"></script>
+    <![endif]-->
+    <style>
+
+        .action-logout {
+            background-color: #f7f8f9;
+            color: #333 !important;
+        }
+
+            .action-logout .text-logout-bt {
+                color: #333 !important;
+                display: block;
+                padding: 10px 0px 8px 10px !important;
+            }
+
+        .control-dropdown {
+            margin-top: 0px;
+            overflow: hidden;
+            padding: 15px;
+        }
+
+        .type.dropdown-toggle.nav-link {
+            border: 1px solid;
+            background: #fff;
+            border-color: #307be7;
+            border-radius: 99px;
+            color: #307be7 !important;
+            min-width: 125px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            letter-spacing: 0;
+            min-height: 38px;
+            font-weight: 600;
+            transition: all 0.2s linear;
+        }
+    </style>
+</head>
+<body>
+   
+    <!-- Main Wrapper -->
+    <div class="main-wrapper">
+        <!-- Header -->
+        <header class="header">
+            <nav class="navbar navbar-expand-lg header-nav">
+                <div class="navbar-header">
+                    <a id="mobile_btn" href="javascript:void(0);">
+                        <span class="bar-icon">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </span>
+                    </a>
+                    <a href="index-2.html" class="navbar-brand logo">
+                        <img src="/doc_assets/img/logo.png" class="img-fluid" alt="Logo">
+                    </a>
+                    <div class="fb-like"
+                         data-share="true"
+                         data-width="450"
+                         data-show-faces="true">
+                    </div>
+                </div>
+                <div class="main-menu-wrapper">
+                    <div class="menu-header">
+                        <a href="index-2.html" class="menu-logo">
+                            <img src="/doc_assets/img/logo.png" class="img-fluid" alt="Logo">
+                        </a>
+                        <a id="menu_close" class="menu-close" href="javascript:void(0);">
+                            <i class="fas fa-times"></i>
+                        </a>
+                    </div>
+                    <ul class="main-nav">
+                        <li class="has-submenu">
+                            <a href="/Home/Index">Trang chủ</a>
+                        </li>
+                        <li class="has-submenu">
+                            <a href="/Home/Intro">Giới thiệu</a>
+                        </li>
+                        <li class="has-submenu">
+                            <a href="/Home/Quytrinh">Quy trình</a>
+                        </li>
+                        <li class="has-submenu">
+                            <a href="/Home/Help">Hướng dẫn sử dụng</a>
+                        </li>
+                        <li class="has-submenu">
+                            <a href="/Home/Contact">Liên hệ</a>
+                        </li>
+                    </ul>
+                </div>
+                <ul class="nav header-navbar-rht">
+                    <li class="nav-item contact-item">
+                        <div class="header-contact-img">
+                            <i class="far fa-hospital"></i>
+                        </div>
+                        <div class="header-contact-detail">
+                            <p class="contact-header">Liên hệ</p>
+                            <p class="contact-info-header">0977129155</p>
+                        </div>
+                    </li>
+
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <li class="nav-item dropdown has-arrow">
+                            <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
+                                <span><i class="fas fa-user-circle mr-2"></i>Thông tin tài khoản</span><span class="user-img"></span>
+                            </a>
+                            <div class="dropdown-menu">
+                                <div class="user-header">
+                                    <div class="avatar avatar-sm">
+                                        <img src="~/doc_assets/img/patients/user.svg" alt="User Image" class="avatar-img rounded-circle">
+                                    </div>
+                                    <div class="user-text">
+                                        <h6>Xin chào!</h6>
+                                        <p class="text-muted mb-0">@User.Identity.Name</p>
+                                    </div>
+                                </div>
+                                <a class="dropdown-item" href="/Patient/Patients/ProfilePatient">Hồ sơ bệnh nhân</a>
+                                <a class="dropdown-item" href="/Patient/Patients/ManageMB/@User.Identity.Name">Phiếu khám bệnh</a>
+                                <div class="action-logout">
+                                    <a class="text-logout-bt" href="/Users/Auth/SignOut">
+                                        <i class="fas fa-sign-out-alt mr-2"></i>Thoát
+                                    </a>
+                                </div>
+                            </div>
+                        </li>
+                        @if (User.IsInRole("Patient"))
+                        {
+
+                        }
+                    }
+                    else
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link header-login" href="/Users/Auth/SignIn">Đăng nhập</a>
+                        </li>
+                    }
+                </ul>
+            </nav>
+        </header>
+        <!-- /Header -->
+        <!-- Breadcrumb -->
+        <div class="breadcrumb-bar">
+            <div class="container-fluid">
+                <div class="row align-items-center">
+                    <div class="col-md-8 col-12">
+                        <nav aria-label="breadcrumb" class="page-breadcrumb">
+                            <h2 class="breadcrumb-title">Trang chủ</h2>
+                        </nav>
+                    </div>
+                    <div class="col-md-4 col-12 d-md-block d-none">
+                        <div class="sort-by">
+                            <ul style="list-style:none">
+                                <li class="nav-item dropdown has-arrow" style="list-style:none">
+                                    <a href="#" class="type dropdown-toggle nav-link text-uppercase" data-toggle="dropdown">
+                                        <span>Chọn hình thức đăng ký</span><span class="user-img"></span>
+                                    </a>
+                                    <div class="dropdown-menu text-uppercase">
+                                        <a class="dropdown-item" href="/Patient/Home/BookingByDoctor">Đặt lịch theo bác sĩ</a>
+                                        <hr />
+                                        <a class="dropdown-item" href="/Patient/Home/BookingByDay">Đặt lịch theo ngày</a>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /Breadcrumb -->
+        <!-- Page Content -->
+        <div class="content">
+            <div class="container">
+
+
+                @RenderBody()
+
+            </div>
+
+        </div>
+        <!-- /Page Content -->
+        <!-- Footer -->
+        <footer class="footer">
+
+            <!-- Footer Top -->
+            <div class="footer-top">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-lg-2 col-md-3">
+                        </div>
+                        <div class="col-lg-3 col-md-6">
+                            <div class="footer-widget footer-about">
+                                <div class="footer-logo">
+                                    <img src="/doc_assets/img/footer-logo.png" alt="logo">
+                                </div>
+                                <div class="footer-about-content">
+                                    <p>Doccure có đội ngũ chuyên gia, bác sĩ, dược sĩ và điều dưỡng trình độ chuyên môn cao, giàu kinh nghiệm. tận tâm và chuyên nghiệp. Luôn đặt người bệnh làm trung tâm, Doccure cam kết đem đến dịch vụ chăm sóc sức khỏe tốt nhất.</p>
+                                    <div class="social-icon">
+                                        <ul>
+                                            <li>
+                                                <a href="#" target="_blank"><i class="fab fa-facebook-f"></i> </a>
+                                            </li>
+                                            <li>
+                                                <a href="#" target="_blank"><i class="fab fa-twitter"></i> </a>
+                                            </li>
+                                            <li>
+                                                <a href="#" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+                                            </li>
+                                            <li>
+                                                <a href="#" target="_blank"><i class="fab fa-instagram"></i></a>
+                                            </li>
+                                            <li>
+                                                <a href="#" target="_blank"><i class="fab fa-dribbble"></i> </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-1">
+                        </div>
+                        <div class="col-lg-4 col-md-12">
+                            <div class="footer-widget footer-contact">
+                                <h2 class="footer-title">Liên hệ</h2>
+                                <div class="footer-contact-info">
+                                    <div class="footer-address">
+                                        <span><i class="fas fa-map-marker-alt"></i></span>
+                                        <p> 437c/4 Long Hòa, Bình Thủy, Cần Thơ</p>
+                                    </div>
+                                    <p>
+                                        <i class="fas fa-phone-alt"></i>
+                                        0977129155
+                                    </p>
+                                    <p class="mb-0">
+                                        <i class="fas fa-envelope"></i>
+                                        doccure@gmail.com
+                                    </p>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="col-lg-2 col-md-3">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /Footer Top -->
+        </footer>
+        <!-- /Footer -->
+
+    </div>
+    <!-- /Main Wrapper -->
+    <!-- jQuery -->
+    <script src="/doc_assets/js/jquery.min.js"></script>
+
+    <!-- Bootstrap Core JS -->
+    <script src="/doc_assets/js/popper.min.js"></script>
+    <script src="/doc_assets/js/bootstrap.min.js"></script>
+
+    <!-- Custom JS -->
+    <script>
+        var j = jQuery.noConflict();
+    </script>
+    <script src="/doc_assets/js/script.js"></script>
+
+</body>
+
+<!-- doccure/components.html  30 Nov 2019 04:12:19 GMT -->
+</html>

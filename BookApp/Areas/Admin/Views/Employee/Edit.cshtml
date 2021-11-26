@@ -1,0 +1,304 @@
+@model Employee
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<head>
+    <link href="~/assets/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/assets/css/jquery-datetimepicker.min.css" rel="stylesheet" />
+    @*<link href="~/assets/css/bootstrap-datetimepicker.min.css" rel="stylesheet" />*@
+    <link rel="stylesheet" href="~/doc_assets/css/style.css">
+    <style>
+        .sidebar-menu {
+            font-family: Arial,sans-serif;
+            padding: 10px;
+        }
+    </style>
+</head>
+
+<h2 class="m-4" style="text-align:center">Cập nhật Nhân viên</h2>
+<div class="col-md-12 col-lg-12 col-xl-12">
+    <div class="card">
+        <div class="card-body">
+            <form method="post">
+                <input type="hidden" asp-for="IdEmp" id="idemp" />
+                <div class="row form-row">
+                    <div class="col-12 col-md-4">
+                        <div class="form-group">
+                            <label>Tên đăng nhập</label>
+                            <input type="text" autocomplete="Caigido" placeholder="Username" asp-for="Username" class="form-control" id="username" />
+                            <p class="text-danger" id="infousername"></p>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-4">
+                        <div class="form-group">
+                            <label>Tên Nhân viên</label>
+                            <input type="text" asp-for="NameEmp" class="form-control" id="nameemp" />
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-4">
+                        <div class="form-group">
+                            <label>Số điện thoại</label>
+                            <input type="text" asp-for="Phone" class="form-control" id="phone" />
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-4">
+                        <div class="form-group">
+                            <label>Địa chỉ</label>
+                            <input type="hidden" id="address" asp-for="AddE" class="form-control" />
+                            <input type="text" value="@(Model.AddE.Split(',')[0])" class="form-control" id="street" onkeyup="changestreet()" />
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-4">
+                        <div class="form-group">
+                            <label>Email</label>
+                            <input type="email" asp-for="Email" class="form-control" id="email" />
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-4">
+                        <div class="form-group">
+                            <label>Tỉnh/Thành Phố</label>
+                            <select class="form-control" asp-for="City" asp-items="@ViewBag.province" id="province" onchange="changeprovince(this)">
+                                @*<option>@Model.AddE.Split(",")[Model.AddE.Split(",").Length - 1]</option>*@
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-4">
+                        <div class="form-group">
+                            <label>Quận/Huyện</label>
+                            <select class="form-control" asp-for="District" asp-items="@ViewBag.district" id="dictrict" onchange="changedictrict(this)">
+                                @*<option>@Model.AddE.Split(",")[Model.AddE.Split(",").Length - 2]</option>*@
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-md-4">
+                        <div class="form-group">
+                            <label>Xã/Phường</label>
+                            <select class="form-control" asp-for="Village" asp-items="@ViewBag.village" id="village" onchange="changestreet()">
+                                @*<option>@Model.AddE.Split(",")[Model.AddE.Split(",").Length - 3]</option>*@
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-4">
+                        <div class="form-group">
+                            <label>Giới tính</label>
+                            <select asp-for="SexE" class="form-control" id="gender">
+                                <option value=false>Nam</option>
+                                <option value=true>Nữ</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-4">
+                        <div class="form-group">
+                            <label>Ngày sinh</label>
+                            <input type="text" asp-for="DOB" class="form-control" id="dob">
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-4">
+                        <div class="form-group">
+                            <label>Chức vụ</label>
+                            <select asp-for="Position" class="form-control" id="chucvu">
+                                <option value="Bác sĩ">Bác sĩ</option>
+                                <option value="Y tá">Y tá</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-4">
+                        <div class="form-group">
+                            <label>Trình độ học vấn</label>
+                            <select asp-for="IdEdu" asp-items="@ViewBag.education" class="form-control" id="idedu"></select>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-4">
+                        <div class="form-group">
+                            <label>Chuyên khoa</label>
+                            <select asp-for="IdDept" asp-items="@ViewBag.department" class="form-control" id="iddept">
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-4">
+                        <div class="form-group">
+                            <div class="change-avatar">
+                                <div class="profile-img" style="width:100px" id="caiquan">
+                                    <div class="image-area" id="maindiv">
+                                        <img src="/assets/img/doctors/@Model.Images" alt="Preview" id="mainimg" />
+                                        <a class="remove-image" id="image1" style="display: inline;">&#215;</a>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div>
+                                        <input type="hidden" asp-for="Images" id="main" />
+                                        <input type="file" accept="image/*" class="f" id="mainimage" style="display:none" />
+                                        <input type="button" class="btn btn-info" value="Choose File" onclick="document.getElementById('mainimage').click();" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="submit-section">
+                    <button class="btn btn-warning" id="save" style="text-align:center">Cập nhật nhân viên</button>
+                    <a href="/Admin/Employee" class="btn btn-success mx-4" style="float:right">Quay lại</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+@*<script src="~/assets/js/jquery-3.2.1.min.js"></script>*@
+
+<script src="~/assets/js/moment.min.js"></script>
+@*<script src="~/assets/js/bootstrap-datetimepicker.min.js"></script>*@
+
+
+<script>
+    var j = jQuery.noConflict();
+
+    var deleteImage = (id) => {
+        j.post('/Admin/employee/deleteimage', { 'id': id }, function (d) {
+            console.log(d);
+            document.getElementById('main').value = "";
+            //di.remove();
+            document.getElementById('caiquan').innerHTML = `<div class="image-area d-none" id="maindiv">
+                                        <img src="" alt="Preview" id="mainimg" />
+                                        <a class="remove-image" id="image1" style="display: inline;">&#215;</a>
+                                    </div>`
+        });
+    }
+    j(document).on('change', '#mainimage', function () {
+        let arr = document.getElementById('mainimg').src.split("/");
+        let id = arr[arr.length - 1];
+        if (id != "") {
+            deleteImage(id);
+        }
+        var files = this.files;
+        var formData = new FormData();
+        formData.append("f", files[0]);
+        var str = files[0].name.split(" ").join("");
+        console.log({ str })
+        j.ajax(
+            {
+                url: "/Admin/Employee/upload",
+                data: formData,
+                processData: false,
+                contentType: false,
+                type: "POST",
+                success: function (d) {
+                    document.getElementById('main').value = str;
+                    document.getElementById('mainimg').src = "/assets/img/doctors/" + str;
+                    document.getElementById('maindiv').classList.toggle('d-none');
+                }
+            });
+    });
+    j(document).on('click', '#image1', function () {
+        //var di = this.closest("div");
+        var arr = this.previousElementSibling.src.split("/");
+        var id = arr[arr.length - 1];
+        deleteImage(id);
+    });
+    j('form input').keydown((e) => {
+        if (e.keyCode == 13) {
+            e.preventDefault();
+            return false;
+        }
+    })
+    username.onchange = (e) => {
+        console.log(e);
+        console.log(e.target.value)
+        j.post('/Admin/Employee/checkusername', { username: e.target.value }, (d) => {
+            console.log(d);
+            if (d != 0) {
+                j('#save').prop('disabled', true);
+                infousername.innerText = "Tên đăng nhập đã tồn tại"
+            } else {
+                j('#save').prop('disabled', false);
+                infousername.innerText = ""
+
+            }
+        })
+    }
+    var changeprovince = (e) => {
+        console.log(e)
+        j.post('/Admin/Employee/GetDVHCByParentID', { id: parseInt(e.value) }, (d) => {
+            console.log(d);
+            let str = `<option>Chọn quận huyện</option>`;
+            if (d.length > 0) {
+                for (var i = 0; i < d.length; i++) {
+                    str += `<option value="${d[i].id}">${d[i].name}</option>`
+                }
+                document.getElementById('dictrict').innerHTML = str;
+                document.getElementById('village').innerHTML = `<option>Chọn xã</option>`
+                joinAddress();
+            }
+        })
+    }
+    var changedictrict = (e) => {
+        j.post('/Admin/Employee/GetDVHCByParentID', { id: parseInt(e.value) }, (d) => {
+            console.log(d);
+            let str = `<option>Chọn Xã Phường</option>`;
+            if (d.length > 0) {
+                for (var i = 0; i < d.length; i++) {
+                    str += `<option value="${d[i].id}">${d[i].name}</option>`
+                }
+                document.getElementById('village').innerHTML = str;
+                joinAddress();
+            }
+        })
+    }
+
+    function changestreet() {
+        joinAddress();
+    }
+    var joinAddress = () => {
+        let street = document.getElementById('street').value;
+        let province = j("#province option:selected").text();
+        let dictrict = j("#dictrict option:selected").text();
+        let village = j("#village option:selected").text();
+        console.log({ street });
+        document.getElementById('address').value = `${street}, ${village}, ${dictrict}, ${province}`
+    }
+
+    save.onclick = () => {
+        let obj = {
+            idEmp: document.getElementById('idemp').value,
+            username: document.getElementById('username').value,
+            phone: document.getElementById('phone').value,
+            nameEmp: document.getElementById('nameemp').value,
+            email: document.getElementById('email').value,
+            sexE: document.getElementById('gender').value == 'false'?false:true,
+            position: document.getElementById('chucvu').value,
+            idEdu: parseInt(document.getElementById('idedu').value),
+            idDept: document.getElementById('iddept').value,
+            addE: document.getElementById('address').value,
+            DOB: document.getElementById('dob').value,
+            images: document.getElementById('main').value,
+            city: parseInt(document.getElementById('province').value),
+            district: parseInt(document.getElementById('dictrict').value),
+            village: parseInt(document.getElementById('village').value),
+        }
+
+        console.log(obj);
+        //j.post('/Admin/Employee/Edit', { obj: obj }, (d) => {
+        //    console.log(d);
+            
+        //})
+    }
+</script>
+<script src="~/assets/js/script3.js"></script>
+<script src="~/assets/js/jquery-1.10.2.js"></script>
+<script src="~/assets/js/jquery.datetimepicker.full.js"></script>
+<script>
+    var j1 = jQuery.noConflict();
+    var timeArray = ['00:00', '00:30', '01:00', '01:30', '02:00', '02:30', '03:00', '03:30', '04:00', '04:30', '05:00', '05:30', '06:00', '06:30', '07:00', '07:30', '08:00', '08:30', '09:00', '09:30', '10:00', '10:30', '11:00', '11:30', '12:00', '12:30', '13:00', '13:30', '14:00', '14:30', '15:00', '15:30', '16:00', '16:30', '17:00', '17:30', '18:00', '18:30', '19:00', '19:30', '20:00', '20:30', '21:00', '21:30', '22:00', '22:30', '23:00', '23:30', '23:59']
+    j1.datetimepicker.setLocale('vi');
+    j1("#dob").datetimepicker({       
+        timepicker: false,
+        defaultTime: '00:00',
+        format: 'Y/m/d'
+        //allowTimes: timeArray
+    });
+</script>

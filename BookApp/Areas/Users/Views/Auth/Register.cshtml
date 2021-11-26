@@ -1,0 +1,235 @@
+﻿@{ Layout = ""; }
+
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- doccure/register.html  30 Nov 2019 04:12:20 GMT -->
+<head>
+    <meta charset="utf-8">
+    <title>Doccure</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+
+    <!-- Favicons -->
+    <link href="/doc_assets/img/favicon.png" rel="icon">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="/doc_assets/css/bootstrap.min.css">
+
+    <!-- Fontawesome CSS -->
+    <link rel="stylesheet" href="/doc_assets/plugins/fontawesome/css/fontawesome.min.css">
+    <link rel="stylesheet" href="/doc_assets/plugins/fontawesome/css/all.min.css">
+
+    <!-- Main CSS -->
+    <link rel="stylesheet" href="/doc_assets/css/style.css">
+    <style>
+        .btn-login-number {
+            background-image: linear-gradient( 45deg, #06bff2 0%, #0b7df1 100%);
+            border-radius: 25.5px;
+            font-size: 14px;
+            color: #ffffff;
+            text-align: center;
+            text-transform: none;
+            display: block;
+            width: 100%;
+            padding: 10px 12px;
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body class="account-page">
+
+    <!-- Main Wrapper -->
+    <div class="main-wrapper">
+
+        <!-- Header -->
+        <header class="header">
+            <nav class="navbar navbar-expand-lg header-nav">
+                <div class="navbar-header">
+                    <a id="mobile_btn" href="javascript:void(0);">
+                        <span class="bar-icon">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </span>
+                    </a>
+                    <a href="index-2.html" class="navbar-brand logo">
+                        <img src="/doc_assets/img/logo.png" class="img-fluid" alt="Logo">
+                    </a>
+                </div>
+
+
+            </nav>
+        </header>
+        <!-- /Header -->
+        <!-- Page Content -->
+        <div class="content">
+            <div class="container-fluid">
+
+                <div class="row">
+                    <div class="col-md-8 offset-md-2">
+
+                        <!-- Register Content -->
+                        <div class="account-content">
+                            <div class="row align-items-center justify-content-center">
+                                <div class="col-md-7 col-lg-6 login-left">
+                                    <img src="/doc_assets/img/login-banner.png" class="img-fluid" alt="Doccure Register">
+                                </div>
+                                <div class="col-md-12 col-lg-6 login-right">
+                                    <div class="login-header text-center">
+                                        <h3>Đăng nhập</h3>
+                                    </div>
+
+                                    <!-- Register Form -->
+                                    <form action="https://dreamguys.co.in/demo/doccure/doctor-dashboard.html">
+                                        <a href="#sendOTP" data-toggle="modal" class="btn btn-login-number">Đăng nhập bằng số điện thoại</a>
+                                        <div class="login-or">
+                                            <span class="or-line"></span>
+                                            <span class="span-or">or</span>
+                                        </div>
+                                        <div class="row form-row social-login">
+                                            <div class="col-6">
+                                                <a href="#" class="btn btn-facebook btn-block"><i class="fab fa-facebook-f mr-1"></i> Login</a>
+                                            </div>
+                                            <div class="col-6">
+                                                <a href="#" class="btn btn-google btn-block"><i class="fab fa-google mr-1"></i> Login</a>
+                                            </div>
+                                        </div>
+                                    </form>
+                                    <!-- /Register Form -->
+
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /Register Content -->
+
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+        
+
+    </div>
+    <!-- /Main Wrapper -->
+    <!-- Modal -->
+    <div class="modal fade" id="sendOTP" aria-hidden="true" role="dialog">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Đăng nhập vào Doccure</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="hideinput">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="row form-row">
+                            <div class="col-12 col-sm-7">
+                                <div class="form-group">
+                                    <label>Nhập số điện thoại</label>
+                                    <div>
+                                        <input type="text" class="form-control" id="number" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row form-row d-none" id="code">
+                            <div class="col-12 col-sm-7">
+                                <div class="form-group">
+                                    <p class="text-danger">Mã OTP sẽ hết hạn sau: <span id="timelimit">300</span> giây</p>
+                                    <label>Nhập mã xác nhận</label>
+                                    <div>
+                                        <input type="text" class="form-control" id="otpinput" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    
+
+                        <div class="form-content p-2" style="float:right">
+                            <a  class="btn btn-google" data-dismiss="modal">Đóng</a>
+                            <a class="btn btn-primary d-none" id="otp">Gởi SMS </a>
+                            <a class="btn btn-success d-none" id="verify">Xác nhận</a>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal -->
+    <!-- jQuery -->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        var j = jQuery.noConflict();
+        let patt = /((09|03|07|08|05)+([0-9]{8})\b)/g;
+        number.onchange = () => {
+            if (patt.test(number.value) == false) {
+                document.getElementById("otp").classList.add("d-none");
+                alert("Số điện thoại không hợp lệ");
+                return
+            } else {
+                document.getElementById("otp").classList.remove("d-none");
+            }
+        }
+        verify.onclick = () => {
+            j.post('/users/auth/VerifyOTP', { phone: number.value, otp: otpinput.value }, (d) => {
+                if (d="OK") {
+                    window.location.href = '/home/index';
+                } else {
+                    alert(d);
+                    window.location.reload();
+                }
+            });
+        }
+        otp.onclick = () => {
+            console.log('so dien thoai:' + number.value);
+            j.post('/users/auth/sendOTP', { phone: number.value }, (d) => {
+                if (d.indexOf("THÀNH CÔNG")>-1) {
+                    document.getElementById("otp").classList.add("d-none");
+                    document.getElementById("verify").classList.remove("d-none");
+                    document.getElementById("code").classList.remove("d-none");
+                    var countdown=setInterval(() => {
+                        if (parseInt(timelimit.innerText)>0) {
+                            timelimit.innerText = (parseInt(timelimit.innerText) - 1)
+                        } else {
+                            document.getElementById("otp").classList.remove("d-none");
+                            document.getElementById("otp").innerText = "Gửi lại OTP";
+                            document.getElementById("verify").classList.add("d-none");
+                            document.getElementById("code").classList.add("d-none");
+                            clearInterval(countdown);
+                        } 
+                    },1000)
+                } else {
+                    alert(d);
+                    document.getElementById("otp").classList.remove("d-none");
+                    document.getElementById("otp").innerText = "Gửi lại OTP";
+                    document.getElementById("verify").classList.add("d-none");
+                    document.getElementById("code").classList.add("d-none");
+                    timelimit.innerText = '300';
+                }
+            });
+        }
+        j(document).ready(function () {
+            j("#hideinput").click(function () {
+                j("code").hide();
+            });
+        });
+
+    </script>
+
+    @*<script src="/doc_assets/js/jquery.min.js"></script>*@
+
+    <!-- Bootstrap Core JS -->
+    <script src="/doc_assets/js/popper.min.js"></script>
+    <script src="/doc_assets/js/bootstrap.min.js"></script>
+
+    <!-- Custom JS -->
+    <script src="/doc_assets/js/script.js"></script>
+
+</body>
+
+<!-- doccure/register.html  30 Nov 2019 04:12:20 GMT -->
+</html>

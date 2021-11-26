@@ -1,0 +1,968 @@
+﻿@model List<WebApp.Areas.Admin.Models.Department>
+<!-- doccure/calendar.html  30 Nov 2019 04:12:18 GMT -->
+@{
+    Layout = null;
+}
+<head>
+    <meta charset="utf-8">
+    <title>Doccure</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+
+    <!-- Favicons -->
+    <link href="/doc_assets/img/favicon.png" rel="icon">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="/doc_assets/css/bootstrap.min.css">
+
+    <!-- Fontawesome CSS -->
+    <link rel="stylesheet" href="/doc_assets/plugins/fontawesome/css/fontawesome.min.css">
+    <link rel="stylesheet" href="/doc_assets/plugins/fontawesome/css/all.min.css">
+    <link rel="stylesheet" href="/doc_assets/css/style.css">
+    <link href="~/specialist/plugins/fullcalendar/fullcalendar.min.css" rel="stylesheet" />
+
+    <style>
+        .type.dropdown-toggle.nav-link {
+            border: 1px solid;
+            background: #fff;
+            border-color: #307be7;
+            border-radius: 99px;
+            color: #307be7 !important;
+            min-width: 125px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            letter-spacing: 0;
+            min-height: 38px;
+            font-weight: 600;
+            transition: all 0.2s linear;
+        }
+
+        .action-logout {
+            background-color: #f7f8f9;
+            color: #333 !important;
+        }
+
+            .action-logout .text-logout-bt {
+                color: #333 !important;
+                display: block;
+                padding: 10px 0px 8px 10px !important;
+            }
+
+        .control-dropdown {
+            margin-top: 0px;
+            overflow: hidden;
+            padding: 15px;
+        }
+
+        .card-body {
+            position: relative
+        }
+
+        .row {
+            display: flex;
+            flex-wrap: wrap;
+            margin-right: -15px;
+            margin-left: -15px;
+        }
+
+        .btn--sm {
+            padding: 0.525rem 1.125rem 0.425rem;
+            line-height: 1.5;
+        }
+
+        .btn--rounded-gray {
+            background: transparent;
+            border: 1px solid #9ba1af !important;
+            color: #7a8188 !important;
+            width: 100%;
+            font-weight: 700;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .btn--rounded-blue {
+            background: #307be7;
+            border: 1px solid #307be7 !important;
+            color: #fff !important;
+            width: 100%;
+            font-weight: 700;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .btn {
+            display: inline-block;
+            text-decoration: none;
+            text-transform: uppercase;
+            text-align: center;
+            font-size: 14px;
+            border-radius: 2px;
+            margin-right: 10px;
+        }
+
+            .btn.btn-outline-primary {
+                display: inline-block;
+                text-decoration: none;
+                text-transform: none;
+                text-align: center;
+                font-size: 12px;
+                border-radius: 2px;
+            }
+
+        .booking-right-info {
+            border: 1px solid #cdd8ea;
+            background: #fff;
+            border-radius: 3px;
+            padding: 20px 0 20px;
+            margin-bottom: 30px;
+            height: auto;
+            transition: all .2s ease;
+        }
+
+            .booking-right-info h4 {
+                color: #4d4d4d;
+                font-weight: bold;
+                font-size: 16px;
+                margin-bottom: 10px;
+                padding: 0 22px;
+            }
+
+            .booking-right-info .table-responsive {
+                position: relative;
+                overflow: auto;
+                margin-bottom: 0px;
+            }
+
+                .booking-right-info .table-responsive table {
+                    min-width: 900px;
+                    border: 10px solid #eceef3;
+                }
+
+        .table-responsive table {
+            margin: 0;
+            padding: 20px;
+        }
+
+        .table {
+            width: 100%;
+            max-width: 100%;
+            background-color: transparent;
+        }
+
+        .booking-right-info .table-responsive table th {
+            border-top: none;
+            border-bottom: 1px solid #cdd8ea;
+            padding: 10px 0 10px 10px;
+            font-size: 14px;
+            color: #4d4d4d;
+        }
+
+        .booking-right-info .table-responsive table td {
+            border-bottom: 1px solid #cdd8ea;
+            color: #696969;
+            font-size: 14px;
+            transition: all .2s ease;
+        }
+
+        .no_border_bot a:hover {
+            color: #ff0000;
+        }
+
+        .booking-right-info .bri-price {
+            padding: 0 20px;
+        }
+
+            .booking-right-info .bri-price .btn.btn-default {
+                padding: 10px 17px 6px;
+                margin: 20px 3px;
+                border-radius: 2px;
+            }
+
+            .booking-right-info .bri-price .btn.btn-default {
+                background: #fff;
+                color: #307be7;
+                font-size: 13px;
+                border: 1px dashed #307be7;
+                transition: all .2s ease;
+                font-weight: 700;
+            }
+
+            .booking-right-info .bri-price .btn.btn-default {
+                background: #fff;
+                color: #307be7;
+                font-size: 13px;
+                border: 1px dashed #307be7;
+                transition: all .2s ease;
+                font-weight: 700;
+            }
+
+        a.btn.btn-default.order-md-1:hover {
+            background: #307be7;
+            color: white;
+        }
+
+        .booking-right-info .bri-profile {
+            padding-top: 20px;
+            padding-left: 20px;
+            padding-right: 20px;
+            padding-bottom: 30px;
+            border-top: 1px solid #cdd8ea;
+        }
+
+            .booking-right-info .bri-profile h4 {
+                color: #4d4d4d;
+                font-weight: bold;
+                font-size: 16px;
+                margin-bottom: 0;
+                margin-right: 10px;
+                padding: 0;
+                width: 100%;
+            }
+
+            .booking-right-info .bri-profile ul {
+                display: flex;
+                flex-wrap: wrap;
+                margin: 0 0px;
+                margin-top: 20px;
+                list-style-type: none;
+                padding-left: 0;
+            }
+
+                .booking-right-info .bri-profile ul li {
+                    text-align: left;
+                    padding: 0;
+                    word-wrap: break-word;
+                    vertical-align: middle;
+                    margin-bottom: 15px;
+                }
+
+        .li-left {
+            width: 35%;
+            max-width: 130px;
+        }
+
+        .li-right {
+            width: 65%;
+        }
+
+        .booking-right-info .bri-profile ul li .conf-f {
+            font-size: 14px;
+            font-weight: 300;
+            margin-bottom: 5px;
+            color: #696969;
+        }
+
+        .booking-right-info .bri-profile ul li i {
+            margin: 0 10px 0 0;
+            color: rgb(124, 131, 138);
+            font-size: 14px;
+        }
+
+        .booking-right-info .bri-profile ul li .conf-t {
+            font-size: 14px;
+            margin-bottom: 5px;
+        }
+
+        .booking-right-navigation {
+            border: 1px solid #cdd8ea;
+            background: #fff;
+            border-radius: 3px;
+            padding: 15px 25px;
+            margin-bottom: 20px;
+        }
+
+            .booking-right-navigation ul li a.active {
+                color: #307be7 !important;
+            }
+
+            .booking-right-navigation ul li:first-child a {
+                margin-left: 0;
+            }
+
+            .booking-right-navigation ul {
+                padding-left: 0;
+                display: flex;
+                list-style-type: none;
+                margin-bottom: 0;
+                flex-wrap: wrap;
+            }
+
+                .booking-right-navigation ul li a {
+                    font-size: 14px;
+                    color: #696969;
+                    position: relative;
+                    padding-right: 50px;
+                    margin-left: 30px;
+                    cursor: default;
+                    display: block;
+                }
+
+                .booking-right-navigation ul li:not(:last-child) a i.fas {
+                    position: absolute;
+                    top: 4px;
+                    right: 3px;
+                }
+
+        .booking-left-menu .booking-left-menu-top {
+            margin-bottom: 20px;
+            border-width: 1px;
+            border-style: solid;
+            border-color: rgb(205, 216, 234);
+            border-image: initial;
+            border-radius: 3px;
+            padding: 15px;
+            background: rgb(255, 255, 255);
+        }
+
+            .booking-left-menu .booking-left-menu-top .blmt-name {
+                text-transform: uppercase;
+                font-size: 14px;
+                font-weight: bold;
+                color: rgb(77, 77, 77);
+                margin-bottom: 10px;
+            }
+
+            .booking-left-menu .booking-left-menu-top .blmt-info {
+                font-size: 14px;
+                margin-bottom: 5px;
+                color: rgb(77, 77, 77);
+                text-transform: capitalize;
+            }
+
+        #section-find-doctor-2 {
+            margin-bottom: 20px;
+        }
+
+            #section-find-doctor-2 .find-doctor-left-1 {
+                border-radius: 3px;
+            }
+
+                #section-find-doctor-2 .find-doctor-left-1 h4 {
+                    color: rgb(255, 255, 255);
+                    font-size: 15px;
+                    padding: 15px;
+                    border-radius: 3px 3px 0px 0px;
+                    margin: 0px;
+                    background: linear-gradient(rgb(66, 165, 245) 0px, rgb(33, 150, 243) 100%);
+                }
+
+        .find-doctor-left-1 ul {
+            padding: 15px;
+            border-left: 1px solid rgb(205, 216, 234);
+            border-right: 1px solid rgb(205, 216, 234);
+            border-bottom: 1px solid rgb(205, 216, 234);
+            background: rgb(255, 255, 255);
+            border-radius: 0px 0px 3px 3px;
+        }
+
+        #section-find-doctor-2 .find-doctor-left-1 ul li:first-child {
+            color: rgb(48, 123, 231);
+            font-weight: 700;
+        }
+
+        #section-find-doctor-2 .find-doctor-left-1 ul li {
+            font-size: 13px;
+            color: rgb(77, 77, 77);
+            margin-bottom: 15px;
+        }
+
+            #section-find-doctor-2 .find-doctor-left-1 ul li i {
+                margin-right: 15px;
+                color: rgb(48, 123, 231);
+            }
+
+        li {
+            list-style-type: none;
+        }
+
+        .booking-left-menu-hotline {
+            margin-top: 20px;
+            border-width: 1px;
+            border-style: solid;
+            border-color: rgb(205, 216, 234);
+            border-image: initial;
+            background: rgb(255, 255, 255);
+            border-radius: 3px;
+            padding: 20px;
+        }
+
+            .booking-left-menu-hotline .blmh-name {
+                color: rgb(77, 77, 77);
+                font-size: 12px;
+                font-weight: bold;
+                margin-bottom: 5px;
+                text-transform: uppercase;
+            }
+
+            .booking-left-menu-hotline a {
+                font-size: 30px;
+                color: rgb(48, 123, 231);
+                font-weight: bold;
+                letter-spacing: 5px;
+                transition: all 0.2s ease 0s;
+            }
+
+        .col-lg-9 {
+            flex: 0 0 75%;
+            max-width: 105%;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Main Wrapper -->
+    <div class="main-wrapper">
+
+        <!-- Header -->
+        <header class="header">
+            <nav class="navbar navbar-expand-lg header-nav">
+                <div class="navbar-header">
+                    <a id="mobile_btn" href="javascript:void(0);">
+                        <span class="bar-icon">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </span>
+                    </a>
+                    <a href="index-2.html" class="navbar-brand logo">
+                        <img src="/specialist/img/logo.png" class="img-fluid" alt="Logo">
+                    </a>
+                </div>
+                <div class="main-menu-wrapper">
+                    <div class="menu-header">
+                        <a href="index-2.html" class="menu-logo">
+                            <img src="/specialist/img/logo.png" class="img-fluid" alt="Logo">
+                        </a>
+                        <a id="menu_close" class="menu-close" href="javascript:void(0);">
+                            <i class="fas fa-times"></i>
+                        </a>
+                    </div>
+                    <ul class="main-nav">
+                        <li class="has-submenu">
+                            <a href="/Home/Index">Trang chủ</a>
+                        </li>
+                        <li class="has-submenu">
+                            <a href="/Home/Intro">Giới thiệu</a>
+                        </li>
+                        <li class="has-submenu">
+                            <a href="/Home/Quytrinh">Quy trình</a>
+                        </li>
+                        <li class="has-submenu">
+                            <a href="/Home/Help">Hướng dẫn sử dụng</a>
+                        </li>
+                        <li class="has-submenu">
+                            <a href="/Home/Contact">Liên hệ</a>
+                        </li>
+                    </ul>
+                </div>
+                <ul class="nav header-navbar-rht">
+                    <li class="nav-item contact-item">
+                        <div class="header-contact-img">
+                            <i class="far fa-hospital"></i>
+                        </div>
+                        <div class="header-contact-detail">
+                            <p class="contact-header">Liên hệ</p>
+                            <p class="contact-info-header">0977129155</p>
+                        </div>
+                    </li>
+
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <li class="nav-item dropdown has-arrow">
+                            <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
+                                <span><i class="fas fa-user-circle mr-2"></i>Thông tin tài khoản</span><span class="user-img"></span>
+                            </a>
+                            <div class="dropdown-menu">
+                                <div class="user-header">
+                                    <div class="avatar avatar-sm">
+                                        <img src="~/doc_assets/img/patients/user.svg" alt="User Image" class="avatar-img rounded-circle">
+                                    </div>
+                                    <div class="user-text">
+                                        <h6>Xin chào!</h6>
+                                        <p class="text-muted mb-0">@User.Identity.Name</p>
+                                    </div>
+                                </div>
+                                <a class="dropdown-item" href="/Patient/Patients/ProfilePatient">Hồ sơ bệnh nhân</a>
+                                <a class="dropdown-item" href="/Patient/Patients/ManageMB/@User.Identity.Name">Phiếu khám bệnh</a>
+                                <div class="action-logout">
+                                    <a class="text-logout-bt" href="/Users/Auth/SignOut">
+                                        <i class="fas fa-sign-out-alt mr-2"></i>Thoát
+                                    </a>
+                                </div>
+                            </div>
+                        </li>
+                        @if (User.IsInRole("Patient"))
+                        {
+
+                        }
+                    }
+                    else
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link header-login" href="/Users/Auth/SignIn">Đăng nhập</a>
+                        </li>
+                    }
+                </ul>
+            </nav>
+        </header>
+        <!-- /Header -->
+        <!-- Breadcrumb -->
+        <div class="breadcrumb-bar">
+            <div class="container-fluid">
+                <div class="row align-items-center">
+                    <div class="col-md-8 col-12">
+                        <nav aria-label="breadcrumb" class="page-breadcrumb">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="index-2.html">Trang chủ</a></li>
+                                <li class="breadcrumb-item active" aria-current="page">Khám theo bác sĩ</li>
+                            </ol>
+                        </nav>
+                        <h3 class="breadcrumb-title">Đặt khám</h3>
+                    </div>
+                    <div class="col-md-4 col-12 d-md-block d-none">
+                        <div class="sort-by">
+                            <ul style="list-style:none">
+                                <li class="nav-item dropdown has-arrow" style="list-style:none">
+                                    <a href="#" class="type dropdown-toggle nav-link text-uppercase" data-toggle="dropdown">
+                                        <span>Chọn hình thức đăng ký</span><span class="user-img"></span>
+                                    </a>
+                                    <div class="dropdown-menu text-uppercase">
+                                        <a class="dropdown-item" href="/Patient/Home/BookingByDoctor">Đặt lịch theo bác sĩ</a>
+                                        <hr />
+                                        <a class="dropdown-item" href="/Patient/Home/BookingByDay">Đặt lịch theo ngày</a>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- /Breadcrumb -->
+        <!-- Page Content -->
+        <div class="content">
+            <div class="container-fluid" style="min-height:900px">
+
+                <div class="row">
+
+                    <!-- Calendar Events -->
+                    <div class="col-md-4 col-lg-3 theiaStickySidebar">
+                        <div class="booking-left-menu shadow-2">
+                            <div class="booking-left-menu-top shadow-2" id="patientDetail">
+                            </div>
+                            <div id="section-find-doctor-2">
+                                <div class="find-doctor-left-1 shadow-2" id="doctorDetail">
+                                </div>
+                            </div>
+                            <div class="booking-left-menu-hotline text-center shadow-2">
+                                <div class="blmh-name">Hỗ trợ chuyên môn</div>
+                                <a href="tel:19007178" class="d-block">19007178</a>
+                                <hr>
+                                <div class="blmh-name">Hỗ trợ kỹ thuật</div>
+                                <a href="tel:19002115" class="d-block">19002115</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-8 col-lg-9">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="booking-right-info">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <h4>THÔNG TIN KHÁM</h4>
+                                        </div>
+                                    </div>
+                                    <div class="table-responsive" id="departdetail"></div>
+                                    <div class="bri-price d-lg-flex align-items-center">
+                                        <a class="btn btn-default order-md-1" onclick="addDepartmentMore()">
+                                            <i class="fas fa-file-medical">
+                                            </i> Đăng ký thêm chuyên khoa
+                                        </a>
+                                    </div>
+                                    <div class="bri-profile">
+                                        <div class="row">
+                                            <div class="col-xl-6 col-lg-8 ">
+                                                <div class="bri-profile-top d-md-flex align-items-center">
+                                                    <h4>THÔNG TIN BỆNH NHÂN</h4>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row" id="infopatient"></div>
+                                    </div>
+                                    <div class=" bri-payment-btn">
+                                        <div class="row">
+                                            <div class=" col-lg-6 col-12 ml-auto">
+                                                <div class="row">
+                                                    <div class="col-5">
+                                                        <a href="/Patient/Home/BookDoctor" class="btn btn--rounded-gray btn--sm">Quay lại</a>
+                                                    </div>
+                                                    <div class="col-5">
+                                                        <a class="btn btn--rounded-blue btn--sm" onclick="register()">Đăng ký</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+        <!-- /Page Content -->
+        <!-- Footer -->
+        <footer class="footer">
+
+            <!-- Footer Top -->
+            <div class="footer-top">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-lg-2 col-md-3">
+                        </div>
+                        <div class="col-lg-3 col-md-6">
+                            <div class="footer-widget footer-about">
+                                <div class="footer-logo">
+                                    <img src="/doc_assets/img/footer-logo.png" alt="logo">
+                                </div>
+                                <div class="footer-about-content">
+                                    <p>Doccure có đội ngũ chuyên gia, bác sĩ, dược sĩ và điều dưỡng trình độ chuyên môn cao, giàu kinh nghiệm. tận tâm và chuyên nghiệp. Luôn đặt người bệnh làm trung tâm, Doccure cam kết đem đến dịch vụ chăm sóc sức khỏe tốt nhất.</p>
+                                    <div class="social-icon">
+                                        <ul>
+                                            <li>
+                                                <a href="#" target="_blank"><i class="fab fa-facebook-f"></i> </a>
+                                            </li>
+                                            <li>
+                                                <a href="#" target="_blank"><i class="fab fa-twitter"></i> </a>
+                                            </li>
+                                            <li>
+                                                <a href="#" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+                                            </li>
+                                            <li>
+                                                <a href="#" target="_blank"><i class="fab fa-instagram"></i></a>
+                                            </li>
+                                            <li>
+                                                <a href="#" target="_blank"><i class="fab fa-dribbble"></i> </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-1">
+                        </div>
+                        <div class="col-lg-4 col-md-12">
+                            <div class="footer-widget footer-contact">
+                                <h2 class="footer-title">Liên hệ</h2>
+                                <div class="footer-contact-info">
+                                    <div class="footer-address">
+                                        <span><i class="fas fa-map-marker-alt"></i></span>
+                                        <p> 437c/4 Long Hòa, Bình Thủy, Cần Thơ</p>
+                                    </div>
+                                    <p>
+                                        <i class="fas fa-phone-alt"></i>
+                                        0977129155
+                                    </p>
+                                    <p class="mb-0">
+                                        <i class="fas fa-envelope"></i>
+                                        doccure@gmail.com
+                                    </p>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="col-lg-2 col-md-3">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </footer>
+
+        <!-- /Footer -->
+
+    </div>
+
+    <script src="/doc_assets/js/jquery.min.js"></script>
+    <script src="~/doc_assets/js/moment.min.js"></script>
+    <script src="~/doc_assets/js/bootstrap-datetimepicker.min.js"></script>
+    <script src="~/doc_assets/js/fullcalendar.min.js"></script>
+    <script>
+        var j = jQuery.noConflict();
+        var infos = null;
+        var index = 0;
+        j(document).ready(() => {
+            infos = JSON.parse(localStorage.getItem('infos'));
+            //index = infos.deptType.index;
+            showInfo(infos);
+        })
+        function validate(infos) {
+            let n = infos.info.length
+            for (var i = 0; i < n; i++) {
+                if (!infos.info[i].dept) {
+                    console.log("Chưa có thong tin chuyeen khoa: " + (i + 1))
+                    return false;
+                }
+                if (!infos.info[i].doctor) {
+                    console.log("Chưa có thong tin bac si: " + (i + 1))
+                    return false;
+                }
+                if (!infos.info[i].dated) {
+                    console.log("Chưa có thời gian khám: " + (i + 1))
+                    return false;
+                }
+                if (!infos.info[i].edu) {
+                    console.log("Chưa có edu: " + (i + 1))
+                    return false;
+                }
+                if (!infos.info[i].timeChoose) {
+                    console.log("Chưa có khung giờ: " + (i + 1))
+                    return false;
+                }
+            }
+            if (infos.patient) {
+                console.log("Chưa có thông tin bệnh nhân!")
+            }
+            return true
+        }
+        function register() {
+            if (validate) {
+                let n = infos.info.length
+                //kiểm tra dữ liệu trước khi post
+                let objs = []
+                for (var i = 0; i < n; i++) {
+                    let t = infos.timeRange.filter(x => x.idPeriod == infos.info[i].timeChoose)[0];
+                    let obj = {
+                        idDept: infos.info[i].dept.idDept,
+                        deptName: infos.info[i].dept.deptName,
+                        price: parseInt(infos.info[i].dept.price),
+                        ordinalRoom: parseInt(infos.info[i].doctor.ordinalRoom),
+                        idEmp: infos.info[i].doctor.idEmp,
+                        nameEmp: infos.info[i].doctor.nameEmp,
+                        dated: infos.info[i].dated,
+                        roomName: infos.room.filter(x => x.ordinalRoom == infos.info[i].doctor.ordinalRoom)[0].roomName,
+                        idSes: parseInt(t.idSes),
+                        ses: t.idSes == 1 ? "Sáng" : "Chiều",
+                        idPatient: infos.patient.idPatient,
+                        namePatient: infos.patient.namePatient,
+                        sexP: infos.patient.sexPatient,
+                        addP: infos.patient.addP,
+                        DOB: infos.patient.dob,
+                        rangeTime: t.rangeTime
+                    }
+                    objs.push(obj);
+                }
+                console.log(objs);
+                j.ajax({
+                    type: "POST",
+                    url: '/patient/patients/AddPKB',
+                    data: { objs: objs },
+                    async: false,
+                    success: function (d) {
+                        if (d.length > 0) {                           
+                            localStorage.setItem("PKB", JSON.stringify(d))
+                            localStorage.removeItem('infos');
+                            console.log("Đăng ký thành công")
+                            window.location.href = "/Patient/Home/Pay";
+                        } else {
+                            console.log("đăng ký không thành công")
+                        }
+                    }
+                })
+
+
+
+            }
+        }
+        var AddPKB = () => {
+            //console.log(e)
+
+            j.post('/Patient/Patients/AddPKB', { id: infos.info[index] }, (d) => {
+                console.log({ d })
+                //window.location.reload();
+                j(`[infos="${j('#pay').data('infos.info[index]')}"]`).remove();
+               
+            })
+        }
+
+        function deleteInfo(index) {
+            infos.info.splice(index, 1);//xóa array ở vị trí index xóa 1 phần tử
+            infos.deptType.index = infos.info.length - 1;
+            showInfo(infos)
+            localStorage.setItem('infos', JSON.stringify(infos))
+        }
+        function editInfo(index) {
+            infos.deptType.index
+            localStorage.setItem('infos', JSON.stringify(infos))
+            if (infos.type == "doctor") {
+                window.location.href = "/patient/home/BookingByDoctor";
+            } else {
+                window.location.href = "/patient/home/BookingByDay";
+            }
+        }
+        function showInfo(infos) {
+            let strpatient = ''
+            let strdoctor = '';
+            let strdepart = '';
+            let strinfo = '';
+            if (infos.patient) {
+                strpatient = `<div class="blmt-name">
+                                                            <div class="nav-title-name">${infos.patient?.namePatient}</div>
+                                                        </div>
+                                                        <div class="blmt-info">Địa chỉ: ${infos.patient?.addP}</div>
+                                                        <div class="blmt-info">Điện thoại: ${infos.patient?.phone}</div>`
+                strinfo = `<div class="col-xl-7 col-lg-10">
+                                                                            <ul>
+                                                                                <li class="li-left"><p class="conf-f"><i class="fas fa-user"></i>Họ Tên:</p></li>
+                                                                                <li class="li-right"><p class="conf-t" id="patient-name">${infos.patient.namePatient}</p></li>
+                                                                                <li class="li-left">
+                                                                                    <p class="conf-f"><i class="far fa-calendar-alt"></i>Ngày sinh:</p>
+                                                                                </li>
+                                                                                <li class="li-right">
+                                                                                    <p class="conf-t" id="patient-date">${moment(infos.patient.dob).format('DD/MM/YYYY')}</p>
+                                                                                </li>
+                                                                                <li class="li-left">
+                                                                                    <p class="conf-f">
+                                                                                        <i class="fas fa-mobile-alt"></i>Điện thoại:
+                                                                                    </p>
+                                                                                </li>
+                                                                                <li class="li-right">
+                                                                                    <p class="conf-t" id="patient-phone">${infos.patient.phone}</p>
+                                                                                </li>
+                                                                                <li class="li-left">
+                                                                                    <p class="conf-f">
+                                                                                        <i class="fas fa-map-marker"></i>Địa chỉ:
+                                                                                    </p>
+                                                                                </li>
+                                                                                <li class="li-right">
+                                                                                    <p class="conf-t" id="patient-city">${infos.patient.addP}</p>
+                                                                                </li>
+                                                                            </ul>
+                                                                        </div>
+                                                                        <div class="col-xl-5 col-lg-7">
+                                                                            <ul>
+                                                                                <li class="li-left"><p class="conf-f"><i class="fas fa-venus-mars"></i>Giới tính:</p></li>
+                                                                                <li class="li-right">
+                                                                                    <p class="conf-t" id="patient-gender">${infos.patient.sexPatient == "true" ? "Nữ" : "Nam"}</p>
+                                                                                </li>
+                                                                                <li class="li-left"><p class="conf-f"><i class="fas fa-id-card"></i>CMND:</p></li>
+                                                                                <li class="li-right">
+                                                                                    <p class="conf-t" id="patient-cmnd">${infos.patient.ident}
+                                                                                    </p>
+                                                                                </li>
+                                                                                <li class="li-left">
+                                                                                    <p class="conf-f"><i class="fas fa-at"></i>Email:</p>
+                                                                                </li>
+                                                                                <li class="li-right">
+                                                                                    <p class="conf-t" id="patient-email">${infos.patient.email}</p>
+                                                                                </li>
+                                                                                <li class="li-left">
+                                                                                    <p class="conf-f"><i class="fas fa-suitcase"></i>Nghề nghiệp:</p>
+                                                                                </li>
+                                                                                <li class="li-right"><p class="conf-t" id="patient-phone">${infos.patient.jobName}</p></li>
+                                                                            </ul>
+                                                                        </div>`
+            }
+            else {
+                strpatient = "Không có thông tin bệnh nhân";
+                strinfo = "Không có thông tin bệnh nhân";
+            }
+            if (infos.info.length > 0) {
+                strdoctor = `<h4 class="title1">THÔNG TIN KHÁM</h4>` + infos.info.map((item) => {
+                    return `<ul index=${index}><li class="circle"><i class="far fa-hospital"></i>BỆNH VIỆN TẬN TÂM</li>
+                                                                <li class="circle"><i class="fas fa-file-medical"></i>${item.doctor.deptName}</li>
+                                                                <li class="circle"><i class="fas fa-user-md"></i>${item.doctor.eduName}<span>${item.doctor.nameEmp}</span></li>
+                                                                <li class="circle"><i class="far fa-calendar-check"></i>Ngày khám: <span>${moment(item.dated).format('DD/MM/YYYY')}</span></li>
+                                                                <li class="circle"><i class="far fa-clock"></i>Giờ khám: <span>${infos.timeRange.filter((x) => x.idPeriod == item.timeChoose)[0].rangeTime}</span></li>
+                                                            </ul>`})
+            } else {
+                strdoctor = "Không có thông tin bác sĩ";
+            }
+            if (infos.info.length > 0) {
+                strdepart = infos.info.map((item, index) => {
+                    return `<table class="table table-striped bri-show-records">
+                                                                        <thead>
+                                                                            <tr>
+                                                                                <th class="col-3">Chuyên khoa</th>
+                                                                                <th class="col-2">Ngày khám</th>
+                                                                                <th class="col-2">Bác sĩ</th>
+                                                                                <th class="col-1">Phòng</th>
+                                                                                <th class="col-1">Tiền khám</th>
+                                                                                <th class="col-1"></th>
+                                                                                <th class="col-1"></th>
+                                                                            </tr>
+                                                                        </thead>
+                                                                        <tbody>
+                                                                            <tr>
+                                                                                <td class="no_border_bot">
+                                                                                    <strong>${item.doctor.deptName}</strong>
+                                                                                </td>
+                                                                                <td class="no_border_bot">
+                                                                                    <span>${moment(item.dated).format('DD/MM/YYYY')}</span><br>
+                                                                                    <span>${infos.timeRange.filter(x => x.idPeriod == parseInt(item.timeChoose))[0].rangeTime}</span>
+                                                                                </td>
+                                                                                <td class="no_border_bot">${item.doctor.eduName}${item.doctor.nameEmp}</td>
+                                                                                <td class="no_border_bot">${infos.room.filter((x) => x.ordinalRoom == item.doctor.ordinalRoom)[0].roomName}</td>
+                                                                                <td class="no_border_bot">${item.dept.price.toLocaleString(undefined, { maximumFractionDigits: 0 })}</td>
+                                                                                <td class="text-center no_border_bot">
+                                                                                    <a onclick="editInfo(${index})">
+                                                                                        <i class="far fa-edit">
+                                                                                        </i> Sửa
+                                                                                    </a>
+                                                                                </td>
+<td class="text-center no_border_bot">
+                                                                                    <a onclick="deleteInfo(${index})">
+                                                                                        <i class="far fa-trash-alt">
+                                                                                        </i> Xóa
+                                                                                    </a>
+                                                                                </td>
+                                                                            </tr>
+                                                                        </tbody>
+                                                                    </table>`}).toString()
+
+            }
+            else {
+                strdepart = "Không có thông tin khoa khám";
+            }
+            document.getElementById('patientDetail').innerHTML = strpatient;
+            document.getElementById('doctorDetail').innerHTML = strdoctor.replaceAll('>,<', '><');
+            document.getElementById('departdetail').innerHTML = strdepart.replaceAll('>,<', '><');
+            document.getElementById('infopatient').innerHTML = strinfo;
+        }
+
+        function addDepartmentMore() {
+            infos.deptType.index += 1;
+            localStorage.setItem('infos', JSON.stringify(infos))
+            if (infos.type == "doctor") {
+                window.location.href = "/patient/home/BookingByDoctor";
+            } else {
+                window.location.href = "/patient/home/BookingByDay";
+            }
+        }
+    </script>
+    <!--Bootstrap Core JS-->
+    <script src="/specialist/js/popper.min.js"></script>
+    <script src="/specialist/js/bootstrap.min.js"></script>
+
+    <!-- Sticky Sidebar JS -->
+    <script src="/specialist/plugins/theia-sticky-sidebar/ResizeSensor.js"></script>
+    <script src="/specialist/plugins/theia-sticky-sidebar/theia-sticky-sidebar.js"></script>
+    <!-- Custom JS -->
+    <script src="/specialist/js/script.js"></script>
+
+    <!--Bootstrap Core JS-->
+    <script src="/specialist/js/popper.min.js"></script>
+    <script src="/specialist/js/bootstrap.min.js"></script>
+
+    <!-- Sticky Sidebar JS -->
+    <script src="/specialist/plugins/theia-sticky-sidebar/ResizeSensor.js"></script>
+    <script src="/specialist/plugins/theia-sticky-sidebar/theia-sticky-sidebar.js"></script>
+    <script src="/specialist/js/script.js"></script>
+
+</body>
+
+<!-- doccure/calendar.html  30 Nov 2019 04:12:19 GMT -->

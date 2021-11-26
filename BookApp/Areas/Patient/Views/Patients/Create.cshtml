@@ -1,0 +1,415 @@
+﻿@model Patients
+@{
+    Layout = "~/Areas/Patient/Views/Shared/_LayoutPA.cshtml";
+}
+<head>
+    <link href="~/assets/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/assets/css/jquery-datetimepicker.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/doc_assets/css/style.css">
+    <style>
+        .bd-callout-info {
+            background: #fff;
+        }
+
+        .bd-callout {
+            padding: 1rem;
+            margin-top: 1.25rem;
+            margin-bottom: 1.25rem;
+            border: 1px solid #eee;
+            border-left-width: .25rem;
+            border-radius: .25rem;
+            border-left-color: orange;
+        }
+
+        h2, h3 {
+            font-family: Arial,sans-serif;
+            color: #15558d;
+            position: relative;
+            font-weight: 700;
+        }
+
+        .ml-4, .mx-4 {
+            margin-left: 1.5rem !important;
+        }
+
+        .line {
+            width: 130px;
+        }
+
+        .sidebar-menu {
+            font-family: Arial,sans-serif;
+            padding: 10px;
+        }
+
+        .image-area {
+            position: relative;
+            width: 100%;
+            display: inline-block;
+        }
+
+            .image-area img {
+                max-width: 100%;
+                height: auto;
+            }
+
+        .remove-image {
+            display: none;
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            border-radius: 10em;
+            padding: 2px 6px 3px;
+            text-decoration: none;
+            font: 700 21px/20px sans-serif;
+            background: #555;
+            border: 3px solid #fff;
+            color: #FFF;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.5), inset 0 2px 4px rgba(0,0,0,0.3);
+            text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+            -webkit-transition: background 0.5s;
+            transition: background 0.5s;
+        }
+
+            .remove-image:hover {
+                background: #E54E4E;
+                padding: 3px 7px 5px;
+                top: -11px;
+                right: -11px;
+            }
+
+            .remove-image:active {
+                background: #E54E4E;
+                top: -10px;
+                right: -11px;
+            }
+
+        .btn-info {
+            border-radius: 50px;
+            width: 150px;
+            line-height: 2rem;
+        }
+
+        .btn-facebook {
+            text-align: center;
+            background-color: #307be7;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .row {
+            display: flex;
+            flex-wrap: wrap;
+            margin-right: -15px;
+            margin-left: -15px;
+        }
+
+        .mx-auto {
+            margin-left: auto !important;
+        }
+
+        .mx-auto {
+            margin-right: auto !important;
+        }
+
+        #section-info-123 .group .group-items-register .form-group button {
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        .btn--rounded-blue {
+            background: #307be7;
+            border: 1px solid #307be7 !important;
+            color: #fff !important;
+            width: 100%;
+            font-weight: 700;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .btn.btn--rounded-blue {
+            display: inline-block;
+            text-decoration: none;
+            text-transform: uppercase;
+            text-align: center;
+            font-size: 14px;
+            border-radius: 2px;
+        }
+        .change-avatar {
+            -webkit-box-align: center;
+            align-items: center;
+            display: flex;
+            padding: 30px 100px 0px 0px;
+        }
+        
+    </style>
+</head>
+
+<section class="comp-section">
+    <div class="comp-header">
+        <h3 class="comp-title">TẠO HỒ SƠ</h3>
+        <div class="line"></div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <h2 class="text-xl-center">TẠO HỒ SƠ BỆNH NHÂN</h2><br />
+                    <form method="post">
+                        <div class="row form-row">
+                            <div class="col-12 col-md-4">
+                                <div class="form-group">
+                                    <label>Họ tên bệnh nhân</label>
+                                    <input type="text" asp-for="NamePatient" class="form-control" id="nameemp" />
+                                </div>
+                            </div>
+                           
+                            <div class="col-12 col-md-4">
+                                <div class="form-group">
+                                    <label>Số điện thoại</label>
+                                    @*<input type="text" asp-for="Phone" value="@User.Identity.Name" class="form-control d-none" id="phone" />*@
+                                    <input type="text" asp-for="SubPhone" class="form-control" id="subphone" />
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-4">
+                                <div class="form-group">
+                                    <label>Địa chỉ</label>
+                                    <input type="hidden" id="address" asp-for="AddP" class="form-control" />
+                                    <input type="text" class="form-control" id="street" onkeyup="changestreet()" />
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-4">
+                                <div class="form-group">
+                                    <label>Email</label>
+                                    <input type="email" asp-for="Email" class="form-control" id="email" />
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-4">
+                                <div class="form-group">
+                                    <label>Nghề nghiệp</label>
+                                    <select asp-for="Idjob" asp-items="@ViewBag.job" class="form-control" id="idjob">
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-4">
+                                <div class="form-group">
+                                    <label>CMND</label>
+                                    <input type="text" asp-for="Ident" class="form-control" id="cmnd" />
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-4">
+                                <div class="form-group">
+                                    <label>Tỉnh/Thành Phố</label>
+                                    <select asp-for="City" class="form-control" asp-items="@ViewBag.province" id="province" onchange="changeprovince(this)">
+                                        <option>Chọn Tỉnh/Thành phố</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-4">
+                                <div class="form-group">
+                                    <label>Quận/Huyện</label>
+                                    <select asp-for="District" class="form-control" id="dictrict" onchange="changedictrict(this)">
+                                        <option>Chọn Quận/Huyện</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-12 col-md-4">
+                                <div class="form-group">
+                                    <label>Xã/Phường</label>
+                                    <select asp-for="Village" class="form-control" id="village" onchange="changestreet()">
+                                        <option>Chọn Xã/Phường</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-4">
+                                <div class="form-group">
+                                    <label>Giới tính</label>
+                                    <select asp-for="SexPatient" class="form-control" id="gender">
+                                        <option value=false selected="selected">Nam</option>
+                                        <option value=true>Nữ</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-4">
+                                <div class="form-group">
+                                    <label>Ngày sinh</label>
+                                    <input id="dob" type="text" asp-for="DOB" class="form-control" autocomplete="off">
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-4">
+                                <div class="form-group">
+                                    <div class="change-avatar">
+                                        <div class="profile-img" style="width:100px" id="caiquan">
+                                            @*<img src="/assets/img/patients/mm.png" alt="User Image">*@
+                                            <div class="image-area d-none" id="maindiv">
+                                                <img src="" alt="Preview" id="mainimg" />
+                                                <a class="remove-image" id="image1" style="display: inline;">&#215;</a>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div>
+                                                <input type="hidden" asp-for="ImageP" id="main" />
+                                                <input type="file" accept="image/*" class="f" id="mainimage" style="display:none" />
+                                                <input type="button" class="btn btn-info" value="Choose File" onclick="document.getElementById('mainimage').click();" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        @*<div class="row">
+                            <div class="col-md-2 mx-auto">
+                                <div class="submit-section">
+                                <button tabindex="22" type="button" class="btn btn--rounded-blue" id="save">Xác nhận</button>
+                                    </div>
+                                </div>
+                            </div>*@
+                        <div class="submit-section">
+                            <button class="col-md-3 btn btn-facebook mx-auto" id="save">XÁC NHẬN</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<script src="~/assets/js/jquery-3.2.1.min.js"></script>
+<script src="~/assets/js/moment.min.js"></script>
+@*<script src="~/assets/js/bootstrap-datetimepicker.min.js"></script>*@
+
+
+<script>
+    var j = jQuery.noConflict();
+    var deleteImage = (id) => {
+        j.post('/patient/patients/deleteimage', { 'id': id }, function (d) {
+            console.log(d);
+            document.getElementById('main').value = "";
+            //di.remove();
+            document.getElementById('caiquan').innerHTML = `<div class="image-area d-none" id="maindiv">
+                                                        <img src="" alt="Preview" id="mainimg" />
+                                                        <a class="remove-image" id="image1" style="display: inline;">&#215;</a>
+                                                    </div>`
+        });
+    }
+    var j = jQuery.noConflict();
+    j(document).on('change', '#mainimage', function () {
+        let arr = document.getElementById('mainimg').src.split("/");
+        let id = arr[arr.length - 1];
+        if (id != "") {
+            deleteImage(id);
+        }
+        var files = this.files;
+        var formData = new FormData();
+        formData.append("f", files[0]);
+        var str = files[0].name.split(" ").join("");
+        console.log({ str })
+        j.ajax(
+            {
+                url: "/patient/Patients/upload",
+                data: formData,
+                processData: false,
+                contentType: false,
+                type: "POST",
+                success: function (d) {
+                    document.getElementById('main').value = str;
+                    document.getElementById('mainimg').src = "/assets/img/patients/" + str;
+                    document.getElementById('maindiv').classList.toggle('d-none');
+                }
+            });
+    });
+    j(document).on('click', '#image1', function () {
+        //var di = this.closest("div");
+        var arr = this.previousElementSibling.src.split("/");
+        var id = arr[arr.length - 1];
+        deleteImage(id);
+    });
+    j('form input').keydown((e) => {
+        if (e.keyCode == 13) {
+            e.preventDefault();
+            return false;
+        }
+    })
+    var j = jQuery.noConflict();
+    var changeprovince = (e) => {
+        console.log(e)
+        j.post('/Patient/Patients/GetDVHCByParentID', { id: parseInt(e.value) }, (d) => {
+            console.log(d);
+            let str = `<option>Chọn quận huyện</option>`;
+            if (d.length > 0) {
+                for (var i = 0; i < d.length; i++) {
+                    str += `<option value="${d[i].id}">${d[i].name}</option>`
+                }
+                document.getElementById('dictrict').innerHTML = str;
+                document.getElementById('village').innerHTML = `<option>Chọn xã</option>`
+                joinAddress();
+            }
+        })
+    }
+    var j = jQuery.noConflict();
+    var changedictrict = (e) => {
+        j.post('/Patient/Patients/GetDVHCByParentID', { id: parseInt(e.value) }, (d) => {
+            console.log(d);
+            let str = `<option>Chọn Xã Phường</option>`;
+            if (d.length > 0) {
+                for (var i = 0; i < d.length; i++) {
+                    str += `<option value="${d[i].id}">${d[i].name}</option>`
+                }
+                document.getElementById('village').innerHTML = str;
+                joinAddress();
+            }
+        })
+    }
+
+    function changestreet() {
+        joinAddress();
+    }
+    var j = jQuery.noConflict();
+    var joinAddress = () => {
+        let street = document.getElementById('street').value;
+        let province = j("#province option:selected").text();
+        let dictrict = j("#dictrict option:selected").text();
+        let village = j("#village option:selected").text();
+        console.log({ street });
+        document.getElementById('address').value = `${street}, ${village}, ${dictrict}, ${province}`
+    }
+
+    save.onclick = () => {
+        let obj = {
+
+            phone: document.getElementById('phone').value,
+            subphone: document.getElementById('subphone').value,
+            namePatient: document.getElementById('nameemp').value,
+            email: document.getElementById('email').value,
+            sexPatient: document.getElementById('gender').value == "1" ? true : false,
+            idjob: document.getElementById("idjob").value,
+            ident: document.getElementById("cmnd").value,
+            addP: document.getElementById('address').value,
+            city: parseInt(document.getElementById('province').value),
+            district: parseInt(document.getElementById('dictrict').value),
+            village: parseInt(document.getElementById('village').value),
+            imageP: document.getElementById('main').value,
+            dob: document.getElementById('dob').value,
+        }
+        console.log(obj);
+        //j.post('/admin/employee/create', { obj: obj }, (d) => {
+        //    console.log(d)
+        //})
+    }
+</script>
+<script src="~/assets/js/jquery-1.10.2.js"></script>
+<script src="~/assets/js/jquery.datetimepicker.full.js"></script>
+<script>
+    var j1 = jQuery.noConflict();
+    var timeArray = ['00:00', '00:30', '01:00', '01:30', '02:00', '02:30', '03:00', '03:30', '04:00', '04:30', '05:00', '05:30', '06:00', '06:30', '07:00', '07:30', '08:00', '08:30', '09:00', '09:30', '10:00', '10:30', '11:00', '11:30', '12:00', '12:30', '13:00', '13:30', '14:00', '14:30', '15:00', '15:30', '16:00', '16:30', '17:00', '17:30', '18:00', '18:30', '19:00', '19:30', '20:00', '20:30', '21:00', '21:30', '22:00', '22:30', '23:00', '23:30', '23:59']
+    j1.datetimepicker.setLocale('vi');
+    j1("#dob").datetimepicker({
+        defaultDate: Date.now(),
+        timepicker: false,
+        defaultTime: '00:00',
+        format: 'Y/m/d'
+        //allowTimes: timeArray
+    });
+</script>
+<script src="~/assets/js/script3.js"></script>

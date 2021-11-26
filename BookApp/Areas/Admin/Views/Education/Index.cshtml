@@ -1,0 +1,212 @@
+@model List<WebApp.Areas.Admin.Models.Education>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="page-header">
+    <div class="row">
+        <div class="col-sm-7 col-auto">
+            <h3 class="page-title">Trình độ học vấn</h3>
+            <ul class="breadcrumb">
+                <li class="breadcrumb-item"><a href="index.html">Trang chủ</a></li>
+                <li class="breadcrumb-item active">Trình độ học vấn</li>
+            </ul>
+        </div>
+        <div class="col-sm-5 col">
+            <a href="#add_edu" data-toggle="modal" class="btn btn-primary float-right mt-2">Thêm học vấn</a>
+        </div>
+    </div>
+</div>
+<!-- /Page Header -->
+<div class="row">
+    <div class="col-sm-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-hover table-center mb-0">
+                        <thead>
+                            <tr>
+                                <th>Mã học vấn</th>
+                                <th>Tên học vấn</th>
+                                <th class="text-right"></th>
+                            </tr>
+                        </thead>
+                        <tbody id="sheet">
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /Page Wrapper -->
+<!-- Add Modal -->
+<div class="modal fade" id="add_edu" aria-hidden="true" role="dialog">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Thêm học vấn</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="row form-row">
+                        <div class="col-12 col-sm-6">
+                            <div class="form-group">
+                                <label>Tên trình độ học vấn</label>
+                                <div>
+                                    <input type="text" class="form-control" id="aedu" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <a class="btn btn-primary btn-block" onclick="saveAdd()">Thêm mới</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /ADD Modal -->
+<!-- Edit Details Modal -->
+<div class="modal fade" id="edit_edu" aria-hidden="true" role="dialog">  
+</div>
+<!-- /Edit Details Modal -->
+<!-- Delete Modal -->
+<div class="modal fade" id="delete_modal" aria-hidden="true" role="dialog">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="form-content p-2">
+                    <h4 class="modal-title">Xóa</h4>
+                    <p class="mb-4">Bạn muốn xóa?</p>
+                    <button type="button" class="btn btn-primary" onclick="deleteDept()" id="delete">Xóa </button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Đóng</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    var j = jQuery.noConflict();
+    
+    j(document).ready(() => {
+        showEducation();
+    })
+    var showEducation = () => {
+        j.post('/Admin/Education/GetEducation', null, (d) => {
+            console.log({d})
+            let str = "";
+            for (var i = 0; i < d.length; i++) {
+                str += `<tr idedu="${d[i].idEdu}" eduname="${d[i].eduName}">
+                                    <td>${d[i].idEdu}</td>
+                                    <td>${d[i].eduName}</td>
+                                    <td class="text-right">
+                                        <div class="actions">
+                                            <a class="btn btn-sm bg-success-light" onclick="showEditModal(this)" data-toggle="modal" href="#edit_edu">
+                                                <i class="fe fe-pencil"></i> Sửa
+                                            </a>
+                                            <a data-toggle="modal" onclick="showModal('${d[i].idEdu}')" class="btn btn-sm bg-danger-light">
+                                                <i class="fe fe-trash"></i> Xóa
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>`
+            }
+            sheet.innerHTML = str
+
+        })
+    }
+    //chinh sua department
+    var showEditModal = (e) => {
+        console.log({ e })        
+        let tr = e.parentNode.parentNode.parentNode;       
+        str =`  <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Edit Edu</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="row form-row">
+                        <div class="col-12 col-sm-6">
+                            <div class="form-group">
+                                <label>Ma TDHV</label>
+                                <div>
+                                    <input type="text" value="${j(tr).attr('idedu')}" class="form-control" id="eidedu" readonly />
+                                </div>
+                            </div>
+                        </div>                    
+                        <div class="col-12 col-sm-6">
+                            <div class="form-group">
+                                <label>Tên TDHV</label>
+                                <div>
+                                    <input type="text" class="form-control" id="eedu" value="${j(tr).attr('eduname')}" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <a class="btn btn-primary btn-block" onclick="saveEdit()">Save Changes</a>
+                </form>
+            </div>
+        </div>
+    </div>`
+        document.getElementById('edit_edu').innerHTML = str;
+    }
+    //hien modal xoa
+    var showModal = (id) => {
+        j('#delete_modal').modal();
+        j('#delete').data('edu', id)
+    }
+    //ham xoa
+    var deleteDept = () => {
+        //console.log(e)
+        console.log(j('#delete').data('edu'))
+        j.post('/Admin/Education/Delete', { id: j('#delete').data('edu') }, (d) => {
+            console.log({ d })
+            //window.location.reload();
+            j(`[idedu="${j('#delete').data('edu')}"]`).remove();
+            j('#delete_modal').modal('hide');
+
+        })
+    }
+    var saveEdit = () => {
+        obj = {
+            IdEdu: document.getElementById('eidedu').value,
+            EduName: document.getElementById('eedu').value
+        }
+        console.log(obj);
+        j.post('/Admin/Education/Edit', { obj: obj }, (d) => {
+            console.log({ d })
+            //window.location.reload();
+            showEducation()
+            j('#edit_edu').modal('hide')
+        })
+
+    }
+    var saveAdd = () => {
+        obj = {
+            EduName: document.getElementById('aedu').value
+        }
+        j.post('/Admin/Education/Create', { obj: obj }, (d) => {
+            console.log({ d })
+            if (d != 0) {
+                obj = {
+
+                    EduName: document.getElementById('aedu').value
+                }
+                showEducation()
+                document.getElementById('aedu').value = ""
+                j('#add_edu').modal('hide')
+            }
+        })
+    }
+
+</script>
+

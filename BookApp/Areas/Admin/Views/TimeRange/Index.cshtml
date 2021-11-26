@@ -1,0 +1,27 @@
+@model List<TimeRange>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h1 class="text-center m-2">DANH SÁCH TIMERANGE</h1>
+<a class="btn btn-info m-2" href="/Admin/TimeRange/create">Thêm TimeRange</a>
+<table class="table table-bordered">
+    <tr>
+        <th>IdPeriod</th>
+		<th>Ses</th>
+		<th>timestart</th>
+		<th>timeend</th>
+		<th>Sửa</th>
+		<th>Xóa</th>
+    </tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@item.IdPeriod</td>
+			<td>@item.Ses</td>
+			
+			<td><a href="/Admin/TimeRange/edit/@item.IdPeriod" class="btn btn-primary">Sửa</a></td>
+			<td><a href="/Admin/TimeRange/delete/@item.IdPeriod" class="btn btn-danger">Xóa</a></td>
+        </tr>
+    }
+</table>

@@ -1,0 +1,219 @@
+@model List<WebApp.Areas.Admin.Models.MeElement>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="page-header">
+    <div class="row">
+        <div class="col-sm-7 col-auto">
+            <h3 class="page-title">Hoạt chất</h3>
+            <ul class="breadcrumb">
+                <li class="breadcrumb-item"><a href="index.html">Trang chủ</a></li>
+                <li class="breadcrumb-item active">Hoạt chất</li>
+            </ul>
+        </div>
+        <div class="col-sm-5 col">
+            <a href="#Add_Ele" data-toggle="modal" class="btn btn-primary float-right mt-2">Thêm hoạt chất</a>
+        </div>
+    </div>
+</div>
+<!-- /Page Header -->
+<div class="row">
+    <div class="col-sm-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-hover table-center mb-0">
+                        <thead>
+                            <tr>
+                                <th>Mã hoạt chất</th>
+                                <th>Tên hoạt chất</th>
+                                <th class="text-right"></th>
+                            </tr>
+                        </thead>
+                        <tbody id="sheet">                            
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /Page Wrapper -->
+<!-- Add Modal -->
+<div class="modal fade" id="Add_Ele" aria-hidden="true" role="dialog">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Thêm hoạt chất</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="row form-row">
+                        <div class="col-12 col-sm-6">
+                            <div class="form-group">
+                                <label>Mã hoạt chất</label>
+                                <div>
+                                    <input type="text" class="form-control" id="aidele" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-6">
+                            <div class="form-group">
+                                <label>Tên hoạt chất</label>
+                                <div>
+                                    <input type="text" class="form-control" id="aelename" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <a class="btn btn-primary btn-block" onclick="saveAdd()">Lưu</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /ADD Modal -->
+<!-- Edit Details Modal -->
+<div class="modal fade" id="Edit_Ele" aria-hidden="true" role="dialog">    
+</div>
+<!-- /Edit Details Modal -->
+<!-- Delete Modal -->
+<div class="modal fade" id="delete_modal" aria-hidden="true" role="dialog">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="form-content p-2">
+                    <h4 class="modal-title">Xóa</h4>
+                    <p class="mb-4">Bạn chắc chắn muốn xóa?</p>
+                    <button type="button" class="btn btn-primary" onclick="deleteEle()" id="delete">Xóa</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Hủy</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    var j = jQuery.noConflict();
+    j(document).ready(() => {
+        showMeElement();
+    })
+    var showMeElement = () => {
+        j.post('/Admin/MeElement/GetMeElement', null, (d) => {
+            let str = "";
+            for (var i = 0; i < d.length; i++) {
+                str += `<tr idMeElement="${d[i].idMeElement}" nameMeElement="${d[i].nameMeElement}"}">
+                                    <td>${d[i].idMeElement}</td>
+                                    <td>${d[i].nameMeElement}</td>
+                                    <td class="text-right">
+                                        <div class="actions">
+                                            <a class="btn btn-sm bg-success-light" onclick="showEditModal(this)" data-toggle="modal" href="#Edit_Ele">
+                                                <i class="fe fe-pencil"></i> Sửa
+                                            </a>
+                                            <a data-toggle="modal" onclick="showModal('${d[i].idMeElement}')" class="btn btn-sm bg-danger-light">
+                                                <i class="fe fe-trash"></i> Xóa
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>`
+            }
+            sheet.innerHTML = str
+        })
+    }
+    var showEditModal = (e) => {
+        console.log({ e })
+        let tr = e.parentNode.parentNode.parentNode;
+        str = `  <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Cập nhật hoạt chất</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="row form-row">
+                        <div class="col-12 col-sm-6">
+                            <div class="form-group">
+                                <label>Mã hoạt chất</label>
+                                <div>
+                                    <input type="text" value="${j(tr).attr('idMeElement')}" class="form-control" id="eidele"/>
+                                </div>
+                            </div>
+                        </div>                    
+                        <div class="col-12 col-sm-6">
+                            <div class="form-group">
+                                <label>Tên hoạt chất</label>
+                                <div>
+                                    <input type="text" class="form-control" id="eelename" value="${j(tr).attr('nameMeElement')}" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <a class="btn btn-primary btn-block" onclick="saveEdit()">Lưu</a>
+                </form>
+            </div>
+        </div>
+    </div>`
+        document.getElementById('Edit_Ele').innerHTML = str;
+    }
+    //hien modal xoa
+    var showModal = (id) => {
+        j('#delete_modal').modal();
+        j('#delete').data('element', id)
+    }
+    //ham xoa
+    var deleteEle = () => {
+        //console.log(e)
+        console.log(j('#delete').data('element'))
+        j.post('/Admin/MeElement/Delete', { id: j('#delete').data('element') }, (d) => {
+            console.log({ d })
+            //window.location.reload();
+            j(`[idmeelement="${j('#delete').data('element')}"]`).remove();
+
+            j('#delete_modal').modal('hide');
+
+        })
+    }
+    var saveEdit = () => {
+        obj = {
+            idMeElement: document.getElementById('eidele').value,
+            nameMeElement: document.getElementById('eelename').value
+        }
+        console.log(obj);
+        j.post('/Admin/MeElement/Edit', { obj: obj }, (d) => {
+            console.log({ d })
+            //window.location.reload();
+            showMeElement()
+            j('#Edit_Ele').modal('hide')
+        })
+
+    }
+    var saveAdd = () => {
+        obj = {
+            idMeElement: document.getElementById('aidele').value,
+            nameMeElement: document.getElementById('aelename').value,
+        }
+        j.post('/Admin/MeElement/Create', { obj: obj }, (d) => {
+            console.log({ d })
+            if (d != 0) {
+                obj = {
+                    idMeElement: document.getElementById('aidele').value,
+                    nameMeElement: document.getElementById('aelename').value
+                }
+                
+                showMeElement()
+                document.getElementById('aidele').value = ""
+                document.getElementById('aelename').value = ""
+                j('#Add_Ele').modal('hide')
+            }
+        })
+    }
+   
+</script>
+

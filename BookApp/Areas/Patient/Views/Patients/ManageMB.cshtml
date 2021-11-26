@@ -1,0 +1,588 @@
+﻿@model List<PKB>
+@{
+    Layout = "";
+}
+
+<html lang="en">
+
+<!-- doccure/search.html  30 Nov 2019 04:12:16 GMT -->
+<head>
+    <meta charset="utf-8">
+    <title>Doccure</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+
+    <!-- Favicons -->
+    <link href="/specialist/img/favicon.png" rel="icon">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="/specialist/css/bootstrap.min.css">
+
+    <!-- Fontawesome CSS -->
+    <link rel="stylesheet" href="/specialist/plugins/fontawesome/css/fontawesome.min.css">
+    <link rel="stylesheet" href="/specialist/plugins/fontawesome/css/all.min.css">
+
+    <!-- Datetimepicker CSS -->
+    <link rel="stylesheet" href="/specialist/css/bootstrap-datetimepicker.min.css">
+
+    <!-- Select2 CSS -->
+    <link rel="stylesheet" href="/specialist/plugins/select2/css/select2.min.css">
+
+    <!-- Fancybox CSS -->
+    <link rel="stylesheet" href="/specialist/plugins/fancybox/jquery.fancybox.min.css">
+
+    <!-- Main CSS -->
+    <link rel="stylesheet" href="/specialist/css/style.css">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+        <script src="/specialist/js/html5shiv.min.js"></script>
+        <script src="/specialist/js/respond.min.js"></script>
+    <![endif]-->
+    <style>
+
+        .action-logout {
+            background-color: #f7f8f9;
+            color: #333 !important;
+        }
+
+            .action-logout .text-logout-bt {
+                color: #333 !important;
+                display: block;
+                padding: 10px 0px 8px 10px !important;
+            }
+
+        .control-dropdown {
+            margin-top: 0px;
+            overflow: hidden;
+            padding: 15px;
+        }
+
+        .card .card-header {
+            background-color: #42a5f5;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .left-columns .leftc-name {
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+
+            .left-columns .leftc-name a {
+                font-weight: bold;
+                color: #4d4d4d;
+                transition: all .2s ease;
+                margin-left: 5px;
+            }
+
+        .left-columns .leftc-menu a.active {
+            background: #e4e7eb;
+            color: #307be7;
+        }
+
+            .left-columns .leftc-menu a.active i.fa-angle-right {
+                transform: translateX(0);
+                color: #307be7;
+            }
+
+        .left-columns .leftc-menu a i.fa-angle-right {
+            width: 13px;
+            height: 15px;
+            position: absolute;
+            top: 50%;
+            margin-top: -8px;
+            right: 10px;
+            transition: all .2s ease;
+        }
+
+        .left-columns .leftc-menu a {
+            font-size: 15px;
+            color: #4d4d4d;
+            transition: all .2s ease;
+            padding: 10px 33px;
+            display: flex;
+            margin-bottom: 10px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .leftc-menu a:hover {
+            background: #e4e7eb;
+            color: #307be7;
+        }
+
+        i.far.fa-address-book {
+            padding-right: 10px;
+            padding-top: 4px;
+        }
+
+        i.fa.fa-credit-card {
+            padding-right: 7px;
+            padding-top: 4px;
+        }
+
+        i.fas.fa-file-medical {
+            padding-right: 11px;
+            padding-top: 4px;
+        }
+
+        .group-dashed {
+            padding: 14px 20px 11px;
+            font-size: 14px;
+            border: 1px dashed #cdd8ea;
+            border-radius: 3px;
+            background: #fff;
+            margin-bottom: 15px;
+            cursor: pointer;
+            transition: all .2s ease;
+            position: relative;
+        }
+
+        .group {
+            border: 1px solid #307be7;
+            background: #fff;
+            padding: 20px 20px 40px;
+            border-radius: 3px;
+            height: auto;
+            transition: all .2s ease;
+            position: relative;
+            margin-bottom: 20px;
+            width: 100%;
+        }
+
+        .group-dashed:hover {
+            border: 1px dashed #307be7;
+            transition: all .3s ease-out;
+            position: relative;
+        }
+
+        .group-dashed a:hover {
+            color: #307be7;
+        }
+
+        .ml-auto {
+            margin-left: auto !important;
+        }
+
+        .position-relative {
+            position: relative !important;
+        }
+
+        .group.group-files .group-files-item .group-files-item-right a {
+            color: #696969;
+            font-size: 13px;
+            transition: all .2s ease;
+            position: relative;
+            padding-left: 20px;
+        }
+
+        .group.group-files .group-files-item .group-files-item-right .gfi-see-more {
+            position: absolute;
+            color: #307be7;
+            bottom: 20px;
+            left: 0;
+            font-size: 13px;
+            border-radius: 3px;
+        }
+
+        .btn.more-less {
+            color: #307be7;
+        }
+
+        .type.dropdown-toggle.nav-link {
+            border: 1px solid;
+            background: #fff;
+            border-color: #307be7;
+            border-radius: 99px;
+            color: #307be7 !important;
+            min-width: 125px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            letter-spacing: 0;
+            min-height: 38px;
+            font-weight: 600;
+            transition: all 0.2s linear;
+        }
+
+        .group.group-files-medical {
+            padding: 30px 0;
+            padding-bottom: 0;
+        }
+
+        .group {
+            border: 1px solid #cdd8ea;
+            background: #fff;
+            border-radius: 3px;
+            height: auto;
+            transition: all .2s ease;
+            position: relative;
+            margin-bottom: 20px;
+            width: 100%;
+        }
+
+            .group.group-files-medical .gfm-name {
+                text-align: right;
+                color: #4d4d4d;
+                font-size: 14px;
+                font-weight: bold;
+                margin-bottom: 10px;
+                padding: 0 20px;
+            }
+
+        .table-responsive {
+            display: block;
+            width: 100%;
+            position: relative;
+            overflow: auto;
+            margin: 0;
+            margin-bottom: 30px;
+        }
+
+            .table-responsive table {
+                border: 10px solid #eceef3;
+                margin: 0;
+                padding: 20px;
+            }
+
+                .table-responsive table tr {
+                    background: none;
+                }
+
+                .table-responsive table th {
+                    border-top: none;
+                    border-bottom: 1px solid #cdd8ea;
+                    padding: 20px 12px;
+                    font-size: 13px;
+                    color: #4d4d4d;
+                    text-align: center;
+                }
+
+                .table-responsive table td.active, .col-active {
+                    color: #307be7;
+                    font-weight: bold;
+                }
+
+                .table-responsive table td {
+                    border-bottom: 1px solid #cdd8ea;
+                    padding: 20px 12px;
+                    color: #696969;
+                    font-size: 14px;
+                    text-align: center;
+                    transition: all .2s ease;
+                }
+    </style>
+</head>
+<body>
+
+    <!-- Main Wrapper -->
+    <div class="main-wrapper">
+        <header class="header">
+            <nav class="navbar navbar-expand-lg header-nav">
+                <div class="navbar-header">
+                    <a id="mobile_btn" href="javascript:void(0);">
+                        <span class="bar-icon">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </span>
+                    </a>
+                    <a href="index-2.html" class="navbar-brand logo">
+                        <img src="/specialist/img/logo.png" class="img-fluid" alt="Logo">
+                    </a>
+                </div>
+                <div class="main-menu-wrapper">
+                    <div class="menu-header">
+                        <a href="index-2.html" class="menu-logo">
+                            <img src="/specialist/img/logo.png" class="img-fluid" alt="Logo">
+                        </a>
+                        <a id="menu_close" class="menu-close" href="javascript:void(0);">
+                            <i class="fas fa-times"></i>
+                        </a>
+                    </div>
+                    <ul class="main-nav">
+                        <li class="has-submenu">
+                            <a href="/">Trang chủ</a>
+                        </li>
+                        <li class="has-submenu">
+                            <a href="/Home/Intro">Giới thiệu</a>
+                        </li>
+                        <li class="has-submenu">
+                            <a href="/Home/Quytrinh">Quy trình</a>
+                        </li>
+                        <li class="has-submenu">
+                            <a href="/Home/Help">Hướng dẫn sử dụng</a>
+                        </li>
+                        <li class="has-submenu">
+                            <a href="/Home/Contact">Liên hệ</a>
+                        </li>
+                    </ul>
+                </div>
+                <ul class="nav header-navbar-rht">
+                    <li class="nav-item contact-item">
+                        <div class="header-contact-img">
+                            <i class="far fa-hospital"></i>
+                        </div>
+                        <div class="header-contact-detail">
+                            <p class="contact-header">Liên hệ</p>
+                            <p class="contact-info-header">0977129155</p>
+                        </div>
+                    </li>
+
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <li class="nav-item dropdown has-arrow">
+                            <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
+                                <span><i class="fas fa-user-circle mr-2"></i>Thông tin tài khoản</span><span class="user-img"></span>
+                            </a>
+                            <div class="dropdown-menu">
+                                <div class="user-header">
+                                    <div class="avatar avatar-sm">
+                                        <img src="~/doc_assets/img/patients/user.svg" alt="User Image" class="avatar-img rounded-circle">
+                                    </div>
+                                    <div class="user-text">
+                                        <h6>Xin chào!</h6>
+                                        <p class="text-muted mb-0">@User.Identity.Name</p>
+                                    </div>
+                                </div>
+                                <a class="dropdown-item" href="/Patient/Patients/ProfilePatient">Hồ sơ bệnh nhân</a>
+                                <a class="dropdown-item" href="/Patient/Patients/ManageMB/@User.Identity.Name">Phiếu khám bệnh</a>
+                                <div class="action-logout">
+                                    <a class="text-logout-bt" href="/Users/Auth/SignOut">
+                                        <i class="fas fa-sign-out-alt mr-2"></i>Thoát
+                                    </a>
+                                </div>
+                            </div>
+                        </li>
+                        @if (User.IsInRole("Patient"))
+                        {
+
+                        }
+                    }
+                    else
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link header-login" href="/Users/Auth/SignIn">Đăng nhập</a>
+                        </li>
+                    }
+                </ul>
+            </nav>
+        </header>
+        <div class="breadcrumb-bar">
+            <div class="container-fluid">
+                <div class="row align-items-center">
+                    <div class="col-md-8 col-12">
+                        <nav aria-label="breadcrumb" class="page-breadcrumb">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="index-2.html">Trang chủ</a></li>
+                            </ol>
+                        </nav>
+                        <h3 class="breadcrumb-title">Thông tin tài khoản</h3>
+                    </div>
+                    <div class="col-md-4 col-12 d-md-block d-none">
+                        <div class="sort-by">
+                            <ul style="list-style:none">
+                                <li class="nav-item dropdown has-arrow" style="list-style:none">
+                                    <a href="#" class="type dropdown-toggle nav-link text-uppercase" data-toggle="dropdown">
+                                        <span>Chọn hình thức đăng ký</span><span class="user-img"></span>
+                                    </a>
+                                    <div class="dropdown-menu text-uppercase">
+                                        <a class="dropdown-item" href="/Patient/Home/BookingByDoctor">Đặt lịch theo bác sĩ</a>
+                                        <hr />
+                                        <a class="dropdown-item" href="/Patient/Home/BookingByDay">Đặt lịch theo ngày</a>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /Breadcrumb -->
+        <!-- Page Content -->
+        <div class="content">
+            <div class="container-fluid" style="padding-left: 100px; padding-right: 100px; transform: none; min-height: 500px">
+                <div class="row">
+                    <div class="col-md-12 col-lg-4 col-xl-3 theiaStickySidebar">
+                        <div class="left-columns">
+                            <div class="leftc-name">
+                                Tài khoản của <a>@User.Identity.Name</a>
+                            </div>
+                            <div class="leftc-menu">
+                                <a class="leftc-menu-1" href="/Patient/Patients/ProfilePatient">
+                                    <i class="far fa-address-book"></i> Hồ sơ bệnh nhân <i class="fas fa-angle-right"></i>
+                                </a>
+                                <a class="leftc-menu-2 active" href="/Patient/Patients/ManageMB/@User.Identity.Name">
+                                    <i class="fas fa-file-medical"></i>Phiếu khám bệnh
+                                    <i class="fas fa-angle-right"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12 col-lg-8 col-xl-9">
+                        <div class="group group-files-medical">
+                            <div>
+                                <div class="gfm-name text-uppercase d-flex justify-content-between">
+                                  <input type="text" style="width:250px" class="form-control-sm" onkeyup="filterDoctor(this)" placeholder="Tìm chuyên khoa, bác sĩ, ngày" />                                 
+                                    <div class="gfm-name text-uppercase">@Model[0].NamePatient</div>
+                                </div>                               
+                                <div class="table-responsive">
+                                    <table class="table table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col">Mã phiếu</th>
+                                                <th scope="col">STT</th>
+                                                <th scope="col">Chuyên Khoa</th>
+                                                <th scope="col">Ngày khám</th>
+                                                <th scope="col">Bác sĩ</th>
+                                                <th scope="col">Tình trạng</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="sheet">
+                                            @foreach (var item in Model)
+                                            {
+                                                <tr style="cursor: pointer;" data-id="@item.IdPKB" onclick="viewPres(this)">
+                                                    <td class="active">@item.IdPKB</td>
+                                                    <td class="active">@item.STTPatient</td>
+                                                    <td>@item.DeptName</td>
+                                                    <td>@item.Dated</td>
+                                                    <td>@item.NameEmp</td>
+                                                    <td class="active">@(item.PaymentCode=="0"? "Đã khám": item.PaymentCode=="1"?"Đã hủy":"Chưa khám")</td>
+                                                </tr>
+                                            }
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <!-- /Page Content -->
+        <!-- Footer -->
+        <footer class="footer">
+
+            <!-- Footer Top -->
+            <div class="footer-top">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-lg-2 col-md-3">
+                        </div>
+                        <div class="col-lg-3 col-md-6">
+                            <div class="footer-widget footer-about">
+                                <div class="footer-logo">
+                                    <img src="/doc_assets/img/footer-logo.png" alt="logo">
+                                </div>
+                                <div class="footer-about-content">
+                                    <p>Doccure có đội ngũ chuyên gia, bác sĩ, dược sĩ và điều dưỡng trình độ chuyên môn cao, giàu kinh nghiệm. tận tâm và chuyên nghiệp. Luôn đặt người bệnh làm trung tâm, Doccure cam kết đem đến dịch vụ chăm sóc sức khỏe tốt nhất.</p>
+                                    <div class="social-icon">
+                                        <ul>
+                                            <li>
+                                                <a href="#" target="_blank"><i class="fab fa-facebook-f"></i> </a>
+                                            </li>
+                                            <li>
+                                                <a href="#" target="_blank"><i class="fab fa-twitter"></i> </a>
+                                            </li>
+                                            <li>
+                                                <a href="#" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+                                            </li>
+                                            <li>
+                                                <a href="#" target="_blank"><i class="fab fa-instagram"></i></a>
+                                            </li>
+                                            <li>
+                                                <a href="#" target="_blank"><i class="fab fa-dribbble"></i> </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-1">
+                        </div>
+                        <div class="col-lg-4 col-md-12">
+                            <div class="footer-widget footer-contact">
+                                <h2 class="footer-title">Liên hệ</h2>
+                                <div class="footer-contact-info">
+                                    <div class="footer-address">
+                                        <span><i class="fas fa-map-marker-alt"></i></span>
+                                        <p> 437c/4 Long Hòa, Bình Thủy, Cần Thơ</p>
+                                    </div>
+                                    <p>
+                                        <i class="fas fa-phone-alt"></i>
+                                        0977129155
+                                    </p>
+                                    <p class="mb-0">
+                                        <i class="fas fa-envelope"></i>
+                                        doccure@gmail.com
+                                    </p>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="col-lg-2 col-md-3">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </footer>
+        <!-- /Footer -->
+    </div>
+    <!-- /Main Wrapper -->
+    <!-- jQuery -->
+    <script src="/specialist/js/jquery.min.js"></script>
+    <script>
+        var j = jQuery.noConflict();
+        function viewPres(e) {
+            let id = j(e).data('id');
+            window.location.href = '/patient/home/viewPres/' + id;
+        }
+        function filterDoctor(e) {
+            let v = removeAccents(e.value.toUpperCase());
+            console.log(v);
+            let trs = document.getElementById('sheet').getElementsByTagName('tr');
+            for (var i = 0; i < trs.length; i++) {
+                let dept = removeAccents(trs[i].cells[2].innerText.toUpperCase());
+                let dated = removeAccents(trs[i].cells[3].innerText.toUpperCase());
+                let name = removeAccents(trs[i].cells[4].innerText.toUpperCase());                
+                if (dept.indexOf(v) > -1 || dated.indexOf(v) > -1 || name.indexOf(v) > -1 || v === '') {
+                    trs[i].style.display = "";
+                } else {
+                    trs[i].style.display = "none";
+                }
+            }
+        }
+        function removeAccents(str) {
+            return str.normalize('NFD')
+                .replace(/[\u0300-\u036f]/g, '')
+                .replace(/đ/g, 'd').replace(/Đ/g, 'D');
+        }
+    </script>
+    <!-- Bootstrap Core JS -->
+    <script src="/specialist/js/popper.min.js"></script>
+    <script src="/specialist/js/bootstrap.min.js"></script>
+
+    <!-- Sticky Sidebar JS -->
+    <script src="/specialist/plugins/theia-sticky-sidebar/ResizeSensor.js"></script>
+    <script src="/specialist/plugins/theia-sticky-sidebar/theia-sticky-sidebar.js"></script>
+
+    <!-- Select2 JS -->
+    <script src="/specialist/plugins/select2/js/select2.min.js"></script>
+
+    <!-- Datetimepicker JS -->
+    <script src="/specialist/js/moment.min.js"></script>
+    <script src="/specialist/js/bootstrap-datetimepicker.min.js"></script>
+
+    <!-- Fancybox JS -->
+    <script src="/specialist/plugins/fancybox/jquery.fancybox.min.js"></script>
+
+    <!-- Custom JS -->
+    <script src="/specialist/js/script.js"></script>
+
+</body>
+
+<!-- doccure/search.html  30 Nov 2019 04:12:16 GMT -->
+</html>

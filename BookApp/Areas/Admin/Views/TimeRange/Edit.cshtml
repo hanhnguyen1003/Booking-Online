@@ -1,0 +1,29 @@
+@model TimeRange
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h2 class="m-4">Thêm mới timerange</h2>
+<a href="/Admin/TimeRange" class="btn btn-success mx-4">Quay lại</a>
+<form method="post" class="m-4">
+    <div class="form-group">
+		<label>IdPeriod</label>
+		<div>
+			<input type="text" placeholder="IdPeriod" asp-for="IdPeriod" class="form-control-sm" id="idperiod"/>
+		</div>
+	</div>
+    <div class="form-group">
+        <label>IdSes</label>
+        <div>
+            <select asp-for="IdSes" asp-items="@ViewBag.ses" class="form-control-sm" id="idses"></select>
+        </div>
+    </div>
+	
+	<div class="form-group">
+		<label>timeend</label>
+		<div>
+            <input type="text" placeholder="" asp-for="RangeTime" class="form-control-sm" id="timerange" />
+		</div>
+	</div>
+	<button class="btn btn-info" id="save">Lưu</button>
+</form>

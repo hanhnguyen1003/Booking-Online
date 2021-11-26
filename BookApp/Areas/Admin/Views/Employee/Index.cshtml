@@ -1,0 +1,65 @@
+@model List<Employee>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<head>
+    <link href="~/assets/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/doc_assets/css/style.css">
+    <style>
+        .sidebar-menu{
+            padding: 10px;
+            font-family: Mada,sans-serif
+        }
+
+    </style>
+</head>
+<body>
+    <div class="page-header">
+        <div class="row">
+            <div class="col-sm-7 col-auto">
+                <h3 class="page-title">Nhân viên</h3>
+                <ul class="breadcrumb">
+                    <li class="breadcrumb-item">Trang chủ</li>
+                    <li class="breadcrumb-item active">Nhân viên</li>
+                </ul>
+            </div>
+            <div class="col-sm-5 col addem">
+                <a class="btn btn-primary float-right mt-2" href="/Admin/Employee/create">Thêm Nhân viên</a>
+            </div>
+        </div>
+    </div>
+
+    <div>
+        <table class="table table-bordered text-center">
+            <tr>
+                <th colspan="2">Tên nhân viên</th>
+                <th>Số điện thoại</th>
+                <th>Email</th>
+                <th>Giới tính</th>
+                <th>Học vấn</th>
+                <th>Chuyên khoa</th>
+                <th>Ngày sinh</th>
+                <th></th>
+            </tr>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td><img src="~/assets/img/doctors/@item.Images" height="60" width="60" /></td>
+                    <td>@item.NameEmp</td>
+                    <td>@item.Phone</td>
+                    <td>@item.Email</td>
+                    <td>@(item.SexE?"Nữ":"Nam")</td>
+                    <td>@item.EduName</td>
+                    <td>@item.DeptName</td>
+                    <td>@item.DOB.Value.ToString("MM/dd/yyyy")</td>
+
+                    <td class="text-right" style="width:141px">
+                        <a href="/Admin/Employee/edit/@item.IdEmp" class="btn btn-sm bg-success-light"><i class="fe fe-pencil"></i>Sửa</a>
+                        <a href="/Admin/Employee/delete/@item.IdEmp" class="btn btn-sm bg-danger-light"><i class="fe fe-trash"></i>Xóa</a>
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
+</body>

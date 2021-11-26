@@ -1,0 +1,262 @@
+﻿@model List<Patients>
+@{
+    Layout = "~/Areas/Patient/Views/Shared/_LayoutPA.cshtml";
+}
+<head>
+    <link href="~/assets/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/assets/css/jquery-datetimepicker.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/doc_assets/css/style.css">
+    <style>
+
+        h2, h3 {
+            font-family: Arial,sans-serif;
+            color: #15558d;
+            position: relative;
+            font-weight: 700;
+        }
+
+        .line {
+            width: 130px;
+        }
+
+        .row {
+            display: flex;
+            flex-wrap: wrap;
+            margin-right: -15px;
+            margin-left: -15px;
+        }
+
+        #section-info-123 .group .group-items-register .form-group button {
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        .btn--rounded-blue {
+            background: #307be7;
+            border: 1px solid #307be7 !important;
+            color: #fff !important;
+            width: 100%;
+            font-weight: 700;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .btn.btn--rounded-blue {
+            display: inline-block;
+            text-decoration: none;
+            text-transform: uppercase;
+            text-align: center;
+            font-size: 14px;
+            border-radius: 2px;
+        }
+
+        .group-results.active {
+            border: 1px dashed #307be7;
+            transition: all .3s ease-out;
+            position: relative;
+        }
+
+        .choose-profile-active {
+            color: #696969;
+            position: absolute;
+            top: 18px;
+            right: 18px;
+            background:none;
+            border:none;
+        }
+            .selected {
+                display: inline;
+                color: #307be7;
+                background: transparent;
+                border: 1px solid #307be7;
+                padding: 4px 13px 3px;
+                border-radius: 27px;
+                transition: all .3s ease-out;
+            }
+
+        .choose-profile-active {
+            position: absolute;
+            top: 18px;
+            right: 18px;
+        }
+
+        .ml-auto, .mx-auto {
+            margin-left: auto !important;
+        }
+
+        .gr.gr-info .gr-name-1 {
+            font-size: 13px;
+            color: #696969;
+            margin-bottom: 10px;
+        }
+
+        .gr-name {
+            color: #307be7;
+            font-size: 16px;
+            text-transform: uppercase
+        }
+
+        .nav-title-bhyt {
+            font-weight: normal;
+            font-style: italic;
+            font-size: 13px;
+        }
+
+        .group-dashed {
+            border: 1px dashed #cdd8ea;
+            border-radius: 3px;
+            background: #fff;
+            margin-bottom: 15px;
+            cursor: pointer;
+            transition: all .2s ease;
+            position: relative;
+            padding: 14px 20px 11px;
+            font-size: 14px;
+        }
+
+            .group-dashed:hover {
+                border: 1px dashed #307be7;
+                transition: all .3s ease-out;
+                position: relative;
+            }
+
+        .gdi-book a:hover {
+            color: #307be7;
+        }
+
+        .group-results {
+            padding: 30px 20px;
+            cursor: pointer;
+            margin-bottom: 30px;
+            border-radius: 3px;
+        }
+
+        .gr.gr-info {
+            width: 100%;
+            color: #696969;
+            margin-bottom: 10px;
+        }
+
+        .gr-editor {
+            color: #696969;
+            font-size: 13px;
+            position: relative;
+        }
+
+            .gr-editor a:hover {
+                color: #307be7;
+            }
+    </style>
+</head>
+
+<section class="comp-section">
+    <div class="comp-header">
+        <h3 class="comp-title">TẠO HỒ SƠ</h3>
+        <div class="line"></div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body">                  
+                    <div class="col-md-10 col-lg-6 mx-md-auto">
+                        <h2 class="text-xl-center">CHỌN HỒ SƠ BỆNH NHÂN</h2><br />
+                        @foreach (var item in Model)
+                        {
+                            <div class="group-results group-results-13 d-flex active">
+                                <div class="gr gr-info text-left " id="profilepatient">
+                                    <div class="gr-name d-plex font-weight-bold">@item.NamePatient</div>
+                                    <button class="choose-profile-active ml-auto" data-id="@item.IdPatient" onclick="choosePatient(this)">
+                                        <i class="fas fa-check-circle"></i>
+                                        Chọn
+                                    </button>
+                                    <div class="gr-name-1">
+                                        <span class="nav-title-bhyt">
+                                        </span>
+                                    </div>
+                                    <div class="gr-name-1">Ngày sinh : @item.DOB.Value.ToString("dd/MM/yyyy")</div>
+                                    <div class="gr-name-1">Điện thoại: @item.Phone</div>
+                                    <div class="gr-name-1">Giới tính: @item.SexPatient</div>
+                                    <div class="gr-name-1">CMND/Passport : <i>@item.Ident</i></div>
+                                    <div class="gr-name-1">Email : <i>@item.Email</i></div>
+                                    <div class="gr-name-1">Nghề nghiệp : @item.JobName</div>
+                                    <div class="gr-name-1">Địa chỉ : @item.AddP</div>
+                                    <hr>
+                                    <div class="row">
+                                        <div class="col-lg-7 col-md-7 ml-auto">
+                                            <div class="gr-editor">
+                                                <a href="/Patient/Patients/Edit/@item.IdPatient" class="gr-editor-choose">
+                                                    <i class="fas fa-pen-square"></i> Sửa
+                                                </a> |
+                                                <a href="/Patient/Patients/Delete/@item.IdPatient" class="gr-editor-choose">
+                                                    <i class="fas fa-times-circle">
+                                                    </i> Xóa
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-5 col-md-7 ml-auto">
+                                            <a onclick="chooseProfile()" class="btn btn--rounded-blue btn--sm">Tiếp tục</a>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        }
+
+                        <div class="group-dashed group-dashed-info text-center">
+                            <div class="gdi-book">
+                                <a href="/Patient/Patients/Create">
+                                    <i class="fas fa-user-plus">
+                                    </i>Tạo hồ sơ bệnh nhân
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<script src="~/doc_assets/js/jquery.min.js"></script>
+<script>
+    var j = jQuery.noConflict();
+    var infos = JSON.parse(localStorage.getItem('infos'));
+    var profiles = null;
+    j(document).ready(() => {
+        profiles = @(Json.Serialize(Model))      
+        console.log(profiles)       
+    })
+    function chooseProfile() {      
+       
+        if (infos.patient) {
+           
+            if (infos.type) {
+                localStorage.setItem('infos', JSON.stringify(infos))
+                if (infos.type === 'doctor') {
+                    window.location.href = '/patient/home/BookingByDoctor';
+                } else {
+                    window.location.href = '/patient/home/BookingByDay';
+                }
+            } else {
+                infos.type = "doctor";
+                localStorage.setItem('infos', JSON.stringify(infos))
+                window.location.href = '/patient/home/BookingByDoctor';
+            }
+        } else {
+            alert('Vui lòng chọn hồ sơ.')
+        }
+    }
+    function choosePatient(e) {
+        console.log(e)
+        console.log(j(e).data('id'))
+        let p = profiles.filter((x) => x.idPatient == j(e).data('id'))[0];
+        console.log(p)
+        infos.patient = p;
+        console.log(infos)
+        let selects = document.getElementsByClassName('choose-profile-active');
+        for (let x of selects) {
+            x.classList.remove('selected')
+        }
+        e.classList.add('selected')
+        }
+    
+</script>

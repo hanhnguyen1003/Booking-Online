@@ -1,0 +1,30 @@
+﻿@model List<Employee>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+        <h1>Người dùng</h1>
+        <table class="table table-bordered">
+            <tr>
+                <th>Tên đăng nhập</th>
+                <th>Điện Thoại</th>
+                <th>Email</th>
+                <th>Giới tính</th>
+                <th>Phân quyền</th>
+            </tr>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.Username</td>
+                        <td>@item.Phone</td>
+                        <td>@item.Email</td>
+                        <td>@(item.SexE?"Nữ":"Nam")</td>
+                        <td><a href="/users/role/EmployeeInRole/@item.IdEmp" class="btn btn-info">Phân Quyền</a></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+

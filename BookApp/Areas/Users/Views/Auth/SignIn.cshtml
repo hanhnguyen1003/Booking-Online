@@ -1,0 +1,81 @@
+﻿@model WebApp.Areas.Admin.Models.SignIn
+@{
+    ViewData["Title"] = "SignIn";
+    Layout = "";
+}
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Mirrored from dreamguys.co.in/demo/doccure/admin/login.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 30 Nov 2019 04:12:46 GMT -->
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+    <title>Doccure - Login</title>
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" type="image/x-icon" href="/assets/img/favicon.png">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="/assets/css/bootstrap.min.css">
+
+    <!-- Fontawesome CSS -->
+    <link rel="stylesheet" href="/assets/css/font-awesome.min.css">
+
+    <!-- Main CSS -->
+    <link rel="stylesheet" href="/assets/css/style.css">
+
+    <style>
+        .p, div,h1 {
+            font-family: Arial,sans-serif;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Main Wrapper -->
+    <div class="main-wrapper login-body">
+        <div class="login-wrapper">
+            <div class="container">
+                <div class="loginbox">
+                    <div class="login-left">
+                        <img class="img-fluid" src="/assets/img/logo-white.png" alt="Logo">
+                    </div>
+                    <div class="login-right">
+                        <div class="login-right-wrap">
+                            <h1>Đăng nhập</h1>
+                            <p class="account-subtitle">Truy cập đến trang chủ</p>
+                            <form method="post" action="/users/auth/signin">
+                                <div class="form-group">
+                                    <input class="form-control" autocomplete="off" asp-for="Usr" type="text" placeholder="Username" id="usr">
+                                </div>
+                                <div class="form-group">
+                                    <input class="form-control" autocomplete="off" asp-for="Pwd" type="password" placeholder="Password" id="pwd">
+                                </div>
+                                <div class="form-group">
+                                    <button class="btn btn-primary btn-block" id="save" type="submit">Đăng nhập</button>
+                                </div>
+                            </form>
+                            <!-- /Form -->
+
+                            <div class="text-center forgotpass"><a href="/Users/Auth/ForgotPassword">Quên mật khẩu?</a></div>
+
+                            <div class="text-center dont-have">Bạn là bệnh nhân? <a href="/Users/Auth/Register">Đăng nhập</a></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /Main Wrapper -->
+    <!-- jQuery -->
+    <script src="/assets/js/jquery-3.2.1.min.js"></script>
+    <!-- Bootstrap Core JS -->
+    <script src="/assets/js/popper.min.js"></script>
+    <script src="/assets/js/bootstrap.min.js"></script>
+
+    <!-- Custom JS -->
+    <script src="/assets/js/script.js"></script>
+
+</body>
+
+</html>

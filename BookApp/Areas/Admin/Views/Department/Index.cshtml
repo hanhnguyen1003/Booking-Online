@@ -1,0 +1,509 @@
+@model List<WebApp.Areas.Admin.Models.Department>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<head>
+
+    <style>
+        h2, th {
+            font-family: Arial, sans-serif;
+            margin-top: 0;
+        }
+
+        .image-area {
+            position: relative;
+            width: 100%;
+            display: inline-block;
+        }
+
+            .image-area img {
+                max-width: 100%;
+                height: auto;
+            }
+
+        .remove-image {
+            display: none;
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            border-radius: 10em;
+            padding: 2px 6px 3px;
+            text-decoration: none;
+            font: 700 21px/20px sans-serif;
+            background: #555;
+            border: 3px solid #fff;
+            color: #FFF;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.5), inset 0 2px 4px rgba(0,0,0,0.3);
+            text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+            -webkit-transition: background 0.5s;
+            transition: background 0.5s;
+        }
+
+            .remove-image:hover {
+                background: #E54E4E;
+                padding: 3px 7px 5px;
+                top: -11px;
+                right: -11px;
+            }
+
+            .remove-image:active {
+                background: #E54E4E;
+                top: -10px;
+                right: -11px;
+            }
+
+        .btn-info {
+            border-radius: 50px;
+            width: 150px;
+            line-height: 2rem;
+        }
+
+        .change-avatar {
+            padding-top: 25px;
+        }
+    </style>
+</head>
+<div class="page-header">
+    <div class="row">
+        <div class="col-sm-7 col-auto">
+            <h3 class="page-title">Chuyên khoa</h3>
+            <ul class="breadcrumb">
+                <li class="breadcrumb-item">Trang chủ</li>
+                <li class="breadcrumb-item active">Chuyên khoa</li>
+            </ul>
+        </div>
+        <div class="col-sm-5 col">
+            <a href="#Add_Specialities_details" data-toggle="modal" class="btn btn-primary float-right mt-2">Thêm chuyên khoa</a>
+        </div>
+    </div>
+</div>
+<!-- /Page Header -->
+<div class="row">
+    <div class="col-sm-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-hover table-center mb-0">
+                        <thead>
+                            <tr>
+                                <th>Mã chuyên khoa</th>
+                                <th>Tên chuyên khoa</th>
+                                <th>Giá</th>
+                                <th class="text-right">Hành động</th>
+                            </tr>
+                        </thead>
+                        <tbody id="sheet">
+                            @*@foreach (var item in Model)
+                                {
+                                    <tr iddept="@item.IdDept" image="@item.Images" deptName="@item.DeptName" price="@item.Price">
+                                        <td>@item.IdDept</td>
+                                        <td>
+                                            <h2 class="table-avatar">
+                                                @if (item.Images != "" && item.Images != null)
+                                                {
+                                                    <img class="avatar-img" src="~/assets/img/specialities/@item.Images" height="50" width="50" alt="Hình gì đó">
+                                                }
+                                                @item.DeptName
+                                            </h2>
+                                        </td>
+                                        <td>@item.Price</td>
+                                        <td class="text-right">
+                                            <div class="actions">
+                                                <a class="btn btn-sm bg-success-light" onclick="showEditModal(this)" data-toggle="modal" href="#edit_specialities_details">
+                                                    <i class="fe fe-pencil"></i> Edit
+                                                </a>
+                                                <a data-toggle="modal" onclick="showModal('@item.IdDept')" class="btn btn-sm bg-danger-light">
+                                                    <i class="fe fe-trash"></i> Delete
+                                                </a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }*@
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /Page Wrapper -->
+<!-- Add Modal -->
+<div class="modal fade" id="Add_Specialities_details" aria-hidden="true" role="dialog">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Thêm chuyên khoa</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="row form-row">
+                        <div class="col-12 col-sm-6">
+                            <div class="form-group">
+                                <label>Mã chuyên khoa</label>
+                                <div>
+                                    <input type="text" class="form-control" id="aiddept" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-6">
+                            <div class="form-group">
+                                <label>Tên chuyên khoa</label>
+                                <div>
+                                    <input type="text" class="form-control" id="adeptname" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-6">
+                            <div class="form-group">
+                                <label>Giá</label>
+                                <div>
+                                    <input type="number" class="form-control" id="aprice" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-10 col-sm-6">
+                            <div class="form-group">
+                                <div class="change-avatar">
+                                    <div id="caiquan">
+                                        <div class="image-area d-none" id="maindiv">
+                                            <img src="" alt="Preview" id="mainimg" />
+                                            <a class="remove-image" id="image1" style="display: inline;">&#215;</a>
+                                        </div>
+                                    </div>
+                                    <input type="hidden" name="images" id="amain" />
+                                    <input type="file" accept="image/*" class="f" id="mainimage" style="display:none" value="1" />
+                                    <input type="button" class="btn btn-info" value="Choose File" onclick="document.getElementById('mainimage').click();" />
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <a class="btn btn-primary btn-block" onclick="saveAdd()">Lưu</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /ADD Modal -->
+<!-- Edit Details Modal -->
+<div class="modal fade" id="edit_specialities_details" aria-hidden="true" role="dialog">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Cập nhật chuyên khoa</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="row form-row">
+                        <div class="col-12 col-sm-6">
+                            <div class="form-group">
+                                <label>Mã chuyên khoa</label>
+                                <div>
+                                    <input type="text" class="form-control" id="eiddept" readonly />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-6">
+                            <div class="form-group">
+                                <label>Tên chuyên khoa</label>
+                                <div>
+                                    <input type="text" class="form-control" id="edeptname" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-6">
+                            <div class="form-group">
+                                <label>Giá</label>
+                                <div>
+                                    <input type="number" class="form-control" id="eprice" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-6">
+                            <div class="form-group">
+                                <div class="change-avatar">
+                                    <div id="ecaiquan">
+                                        <div class="image-area d-none" id="emaindiv">
+                                            <img src="" alt="Preview" id="emainimg" />
+                                            <a class="remove-image" t="edit" id="image1" style="display: inline;">&#215;</a>
+                                        </div>
+                                    </div>
+                                    <input type="hidden" name="images" id="emain" />
+                                    <input type="file" accept="image/*" class="f" id="emainimage" style="display:none" />
+                                    <input type="button" class="btn btn-info" value="Choose File" onclick="document.getElementById('emainimage').click();" />
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <a class="btn btn-primary btn-block" onclick="saveEdit()">Lưu</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /Edit Details Modal -->
+<!-- Delete Modal -->
+<div class="modal fade" id="delete_modal" aria-hidden="true" role="dialog">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="form-content p-2">
+                    <h4 class="modal-title">Xóa</h4>
+                    <p class="mb-4">Bạn chắc chắn muốn xóa?</p>
+                    <button type="button" class="btn btn-primary" onclick="deleteDept()" id="delete">Xóa</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Hủy</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    var j = jQuery.noConflict();
+    j(document).ready(() => {
+        showDepartment();
+    })
+    var showDepartment = () => {
+        j.post('/Admin/Department/GetDepartment', null, (d) => {
+            let str = "";
+            for (var i = 0; i < d.length; i++) {
+                str += `<tr iddept="${d[i].idDept}" image="${d[i].images}" deptName="${d[i].deptName}" price="${d[i].price}">
+                                    <td>${d[i].idDept}</td>
+                                    <td>
+                                        <h2 class="table-avatar">
+                                                <img class="avatar-img hinhchinh" src="" height="50" width="60" alt="Hình gì đó">
+                                                ${d[i].deptName}</h2>
+                                    </td>
+                                    <td>${d[i].price}</td>
+                                    <td class="text-right">
+                                        <div class="actions">
+                                            <a class="btn btn-sm bg-success-light" onclick="showEditModal(this)" data-toggle="modal" href="#edit_specialities_details">
+                                                <i class="fe fe-pencil"></i> Sửa
+                                            </a>
+                                            <a data-toggle="modal" onclick="showModal('${d[i].idDept}')" class="btn btn-sm bg-danger-light">
+                                                <i class="fe fe-trash"></i> Xóa
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>`
+            }
+            sheet.innerHTML = str
+            let im = document.getElementsByClassName('hinhchinh')
+            console.log(im)
+            for (var i = 0; i < im.length; i++) {
+                im[i].src = d[i].images ? ("/assets/img/specialities/" + d[i].images) : "";
+            }
+        })
+    }
+    //chinh sua department
+    var showEditModal = (e) => {
+        console.log("Cai quan")
+        console.log({ e })
+        //j('#edit_specialities_details').modal();
+        let tr = e.parentNode.parentNode.parentNode;
+        //console.log({tr})
+        let id = j(tr).attr('iddept')
+        let name = j(tr).attr('deptname')
+        let price = j(tr).attr('price')
+        let image = j(tr).attr('image')
+        console.log({ tr }, { id }, { name }, { price }, { image })
+        eiddept.value = id;
+        edeptname.value = name;
+        eprice.value = parseInt(price)
+        emaindiv.classList.remove('d-none')
+        emainimg.src = "/assets/img/specialities/" + image;
+        emain.value = image;
+    }
+    //hien modal xoa
+    var showModal = (id) => {
+        j('#delete_modal').modal();
+        j('#delete').data('dept', id)
+    }
+    //ham xoa
+    var deleteDept = () => {
+        //console.log(e)
+        console.log(j('#delete').data('dept'))
+        j.post('/Admin/Department/Delete', { id: j('#delete').data('dept') }, (d) => {
+            console.log({ d })
+            //window.location.reload();
+            j(`[iddept="${j('#delete').data('dept')}"]`).remove();
+
+            j('#delete_modal').modal('hide');
+
+        })
+    }
+    var saveEdit = () => {
+        obj = {
+            idDept: document.getElementById('eiddept').value,
+            deptName: document.getElementById('edeptname').value,
+            price: parseInt(document.getElementById('eprice').value),
+            images: document.getElementById('emain').value
+        }
+        console.log(obj);
+        j.post('/Admin/Department/Edit', { obj: obj }, (d) => {
+            console.log({ d })
+            //window.location.reload();
+            showDepartment()
+            j('#edit_specialities_details').modal('hide')
+        })
+
+    }
+    var saveAdd = () => {
+        obj = {
+            idDept: document.getElementById('aiddept').value,
+            deptName: document.getElementById('adeptname').value,
+            price: document.getElementById('aprice').value,
+            images: document.getElementById('amain').value
+        }
+        j.post('/Admin/Department/Create', { obj: obj }, (d) => {
+            console.log({ d })
+            if (d != 0) {
+                obj = {
+                    idDept: document.getElementById('aiddept').value,
+                    deptName: document.getElementById('adeptname').value,
+                    price: document.getElementById('aprice').value,
+                    images: document.getElementById('amain').value
+                }
+                //window.location.reload();
+                //let h2 = document.createElement('h2');
+                //h2.classList.add('table-avatar');
+                //j('#sheet').append(theImage);
+                //j('#sheet').append(`<tr iddept="${obj.idDept}">
+                //                    <td>${obj.idDept}</td>
+                //                    <td>
+                //                        <h2 class="table-avatar">
+                //                         <img class="avatar-img" src="" height="50" width="50" alt="Hình gì đó">
+                //                          ${obj.deptName}
+                //                        </h2>
+                //                    </td>
+                //                    <td>${obj.price}</td>
+                //                    <td class="text-right">
+                //                        <div class="actions">
+                //                            <a class="btn btn-sm bg-success-light" data-toggle="modal" href="#edit_specialities_details">
+                //                                <i class="fe fe-pencil" onclick="fadeModal(${obj.idDept},${obj.deptName},${obj.price},${obj.images})"></i> Edit
+                //                            </a>
+                //                            <a data-toggle="modal" href="#delete_modal" class="btn btn-sm bg-danger-light">
+                //                                <i class="fe fe-trash"></i> Delete
+                //                            </a>
+                //                        </div>
+                //                    </td>
+                //                </tr>`)
+                //document.getElementById('sheet').getElementsByTagName('img')[document.getElementById('sheet').getElementsByTagName('img').length - 1].src = "/assets/img/specialities/" + obj.images;
+                //// sau khi nhap xong set value may cai trong modal add thanh rong het di em
+                showDepartment()
+                document.getElementById('aiddept').value = ""
+                document.getElementById('adeptname').value = ""
+                document.getElementById('aprice').value = ""
+                document.getElementById('amain').value = ""
+                document.getElementById('maindiv').classList.add('d-none');
+                j('#Add_Specialities_details').modal('hide')
+            }
+        })
+    }
+    //neu la true thi xoa cho o modal edit
+    var deleteImage = (id, t) => {
+        if (t) {
+            j.post('/Admin/Department/deleteimage', { 'id': id }, function (d) {
+                console.log(d);
+                document.getElementById('emain').value = "";
+                //di.remove();
+                document.getElementById('ecaiquan').innerHTML = `<div class="image-area d-none" id="emaindiv">
+                                        <img src="" alt="Preview" id="emainimg" />
+                                        <a class="remove-image" t="edit" style="display: inline;">&#215;</a>
+                                    </div>`
+            });
+        } else {
+            j.post('/Admin/Department/deleteimage', { 'id': id }, function (d) {
+                console.log(d);
+                document.getElementById('amain').value = "";
+                //di.remove();
+                document.getElementById('caiquan').innerHTML = `<div class="image-area d-none" id="maindiv">
+                                        <img src="" alt="Preview" id="mainimg" />
+                                        <a class="remove-image" id="image1" style="display: inline;">&#215;</a>
+                                    </div>`
+            });
+        }
+
+    }
+    j(document).on('change', '#mainimage', function () {
+        let arr = document.getElementById('mainimg').src.split("/");
+        let id = arr[arr.length - 1];
+        if (id != "") {
+            deleteImage(id, false);
+        }
+        var files = this.files;
+        var formData = new FormData();
+        formData.append("f", files[0]);
+        var str = files[0].name.split(" ").join("");
+        console.log({ str })
+        j.ajax(
+            {
+                url: "/Admin/Department/upload",
+                data: formData,
+                processData: false,
+                contentType: false,
+                type: "POST",
+                success: function (d) {
+                    document.getElementById('amain').value = str;
+                    document.getElementById('mainimg').src = "/assets/img/specialities/" + str;
+                    document.getElementById('maindiv').classList.remove('d-none');
+                }
+            });
+    });
+    j(document).on('change', '#emainimage', function () {
+        let arr = document.getElementById('emainimg').src.split("/");
+        let id = arr[arr.length - 1];
+        if (id != "") {
+            deleteImage(id, true);
+        }
+        var files = this.files;
+        var formData = new FormData();
+        formData.append("f", files[0]);
+        var str = files[0].name.split(" ").join("");
+        console.log({ str })
+        j.ajax(
+            {
+                url: "/Admin/Department/upload",
+                data: formData,
+                processData: false,
+                contentType: false,
+                type: "POST",
+                success: function (d) {
+                    document.getElementById('emain').value = str;
+                    document.getElementById('emainimg').src = "/assets/img/specialities/" + str;
+                    document.getElementById('emaindiv').classList.remove('d-none');
+                }
+            });
+    });
+    j(document).on('click', '.remove-image', function (e) {
+        var arr = this.previousElementSibling.src.split("/");
+        var id = arr[arr.length - 1];
+        if (j(e).attr('t') == "edit") {
+            deleteImage(id, true);
+        }
+        deleteImage(id, false);
+    });
+    j('form input').keydown((e) => {
+        if (e.keyCode == 13) {
+            e.preventDefault();
+            return false;
+        }
+    })
+</script>
+<!-- /Delete Modal -->
+<!-- /Main Wrapper -->
+<!-- jQuery -->
+<!-- Bootstrap Core JS -->
+@*<script src="~/assets/js/jquery-3.2.1.min.js"></script>
+    <script src="/assets/js/popper.min.js"></script>
+        <script src="/assets/js/bootstrap.min.js"></script>
+    <script src="~/assets/js/script.js"></script>*@
+<!-- Custom JS -->

@@ -1,0 +1,59 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+}
+<head>
+    <link href="~/lib/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
+</head>
+<h1>Đơn Vị Hành Chính</h1>
+<div class="form-group">
+    <label>Tỉnh Thành Phố</label>
+    <select class="form-control-sm" asp-items="@ViewBag.province" id="province" onchange="changeprovince(this)">
+        <option>Chọn Tỉnh / Thành phố</option>
+    </select>
+</div>
+<div class="form-group">
+<label>Quận Huyện</label>
+<select  class="form-control-sm"  id="dictrict" onchange="changedictrict(this)"></select>
+</div>
+<div class="form-group">
+    <label>Xã phường</label>
+    <select  class="form-control-sm"  id="village" onchange="changevillage(this)"></select>
+</div>
+<h3 id="info"></h3>
+<script src="~/js/jquery.min.js"></script>
+<script>
+    var j = jQuery.noConflict();
+    var changeprovince = (e) => {
+        console.log(e)
+        j.post('/Patient/Home/GetDVHCByParentID', { id: parseInt(e.value) },(d)=> {
+            console.log(d);
+            let str = `<option>Chọn quận huyện</option>`;
+            if (d.length>0) {
+                for (var i = 0; i < d.length; i++) {
+                    str+=`<option value="${d[i].id}">${d[i].name}</option>`
+                }
+                document.getElementById('dictrict').innerHTML = str;
+            }
+        })
+    }
+    var changedictrict = (e) => {
+        j.post('/Patient/Home/GetDVHCByParentID', { id: parseInt(e.value) }, (d) => {
+            console.log(d);
+            let str = `<option>Chọn Xã Phường</option>`;           
+            if (d.length > 0) {
+                for (var i = 0; i < d.length; i++) {
+                    str += `<option value="${d[i].id}">${d[i].name}</option>`
+                }
+                document.getElementById('village').innerHTML = str;
+            }
+        })
+    }
+    var changevillage = () => {
+        let province = j("#province option:selected").text();
+        let dictrict = j("#dictrict option:selected").text();
+        let village = j("#village option:selected").text();
+        document.getElementById('info').innerText = village +", "+ dictrict +", "+ province;
+    }
+</script>
+

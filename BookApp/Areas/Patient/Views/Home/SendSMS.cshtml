@@ -1,0 +1,42 @@
+﻿
+@{
+    ViewData["Title"] = "SendSMS";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>SendSMS</h1>
+<form>
+    <div class="form-group">
+        <label>Số điện thoại</label>
+        <div>
+            <input  type="text" id="phone"/>
+        </div>
+    </div>
+    <div class="form-group">
+        <label>Nội dung tin nhắn</label>
+        <div>
+            <input type="text"  id="message"/>
+        </div>
+    </div>
+    <a class="btn btn-info d-none" id="save">Gửi tin</a>
+</form>
+<script>
+    var j = jQuery.noConflict();
+    let patt = /((09|03|07|08|05)+([0-9]{8})\b)/g;
+    phone.onchange = () => {
+        if (patt.test(phone.value) == false) {
+            document.getElementById("save").classList.add("d-none");
+            alert("Số điện thoại không hợp lệ");
+            return
+        } else {
+            document.getElementById("save").classList.remove("d-none");
+        }
+    }
+    save.onclick = () => {
+        let p = phone.value;
+        let m = message.value;
+        j.post('/patient/home/sms', { p: p, m: m }, (d) => {
+            console.log(d);
+        })
+    }
+</script>

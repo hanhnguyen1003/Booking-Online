@@ -1,0 +1,30 @@
+﻿@model List<DetailTransaction>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Chi tiet giao dich</h1>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Mã giao dịch</th>
+            <th>Nội dung</th>
+            <th>Số tiền</th>
+            <th>Chi tiết</th>
+        </tr>
+    </thead>
+    <tbody id="sheet">
+        @foreach (var item in Model)
+        {
+        <tr>
+            <td>@item.vnp_TransactionNo</td>
+            <td>@item.vnp_OrderInfo</td>
+            <td>@item.vnp_Amount</td>
+            <td><a href="/admin/transaction/detail/@item.vnp_TransactionNo" class="btn btn-info">Xem chi tiết</a></td>
+        </tr>
+        }
+    </tbody>
+
+</table>
+

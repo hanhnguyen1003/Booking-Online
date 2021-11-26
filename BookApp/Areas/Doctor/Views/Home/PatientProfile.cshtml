@@ -1,0 +1,302 @@
+﻿
+@{ Layout = "";
+
+    List<Precription> pres = ViewBag.pres;
+    int n = 0;
+}
+<head>
+    <meta charset="utf-8">
+    <title>Doccure</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+
+    <!-- Favicons -->
+    <link href="/doc_assets/img/favicon.png" rel="icon">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="/doc_assets/css/bootstrap.min.css">
+
+    <!-- Fontawesome CSS -->
+    <link rel="stylesheet" href="/doc_assets/plugins/fontawesome/css/fontawesome.min.css">
+    <link rel="stylesheet" href="/doc_assets/plugins/fontawesome/css/all.min.css">
+
+    <!-- Main CSS -->
+    <link rel="stylesheet" href="/doc_assets/css/style.css">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+        <script src="/doc_assets/js/html5shiv.min.js"></script>
+        <script src="/doc_assets/js/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+<!-- Main Wrapper -->
+<div class="main-wrapper">
+    <!-- Breadcrumb -->
+    <div class="breadcrumb-bar">
+        <div class="container-fluid">
+            <div class="row align-items-center">
+                <div class="col-md-12 col-12">
+
+                    <h2 class="breadcrumb-title">Appointment</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /Breadcrumb -->
+    <!-- Header -->
+    <!-- Page Content -->
+    <div class="content">
+        <div class="container-fluid">
+
+            <div class="row">
+                <div class="col-md-5 col-lg-4 col-xl-3 theiaStickySidebar dct-dashbd-lft">
+
+                    <!-- Profile Widget -->
+                    <div class="card widget-profile pat-widget-profile">
+                        <div class="card-body" id="infoPatient">                           
+                        </div>
+                    </div>
+                    <!-- /Profile Widget -->
+
+                </div>
+
+                <div class="col-md-7 col-lg-8 col-xl-9 dct-appoinment">
+                    <div class="card">
+                        <div class="card-body pt-0">
+                            <div class="user-tabs">
+                                <ul class="nav nav-tabs nav-tabs-bottom nav-justified flex-wrap">
+                                    @*<li class="nav-item">
+                                        <a class="nav-link active" href="#pat_appointments" data-toggle="tab">Lịch sử khám bệnh</a>
+                                    </li>*@
+                                    <li class="nav-item">
+                                        <a class="nav-link active" href="#pres" data-toggle="tab"><span>Kê đơn thuốc</span></a>
+                                    </li>
+                                    @*<li class="nav-item">
+                                            <a class="nav-link" href="#medical" data-toggle="tab"><span class="med-records">Hóa đơn khám</span></a>
+                                        </li>*@
+
+                                </ul>
+                            </div>
+                            <div class="tab-content">
+                                <!-- Appointment Tab -->
+                                <!--<div id="pat_appointments" class="tab-pane fade show active">
+                                    <div class="card card-table mb-0">
+                                        <div class="card-body">
+                                            <div class="table-responsive">
+                                                <table class="table table-hover table-center mb-0">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Bác sĩ</th>
+                                                            <th>Ngày khám</th>
+                                                            <th>Tiền khám</th>
+                                                            <th></th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody id="sheet">
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>-->
+                                <!-- /Appointment Tab -->
+                                <!-- Prescription Tab -->
+                                <div class="tab-pane fade show active" id="pres">
+                                    <div class="text-right">
+                                        <a href="/Doctor/Home/Prescription" class="add-new-btn">Kê đơn thuốc</a>
+                                    </div>
+                                    <div class="card card-table mb-0">
+                                        <div class="card-body">
+
+                                            <div class="table-responsive">
+
+                                                <table class="table table-hover table-center mb-0">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>STT</th>
+                                                            <th>Ngày tạo </th>
+                                                            <th>Bác sĩ</th>
+                                                            <th></th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        @foreach (var item in pres)
+                                                        {
+                                                            <tr>
+                                                                <td>@(++n)</td>
+                                                                <td>@item.InDate</td>
+                                                                <td>
+                                                                    <h2 class="table-avatar">
+                                                                        <a href="doctor-profile.html" class="avatar avatar-sm mr-2">
+                                                                            <img class="avatar-img rounded-circle" src="/doc_assets/img/doctors/@item.Images" alt="User Image">
+                                                                        </a>
+                                                                        <a href="doctor-profile.html">@item.NameEmp <span>@item.DeptName</span></a>
+                                                                    </h2>
+                                                                </td>
+                                                                <td class="text-right">
+                                                                    <div class="table-action">
+                                                                        <a onclick="viewDetail(this)" data-content="@(n)" data-id="@item.IdPres" class="btn btn-sm bg-info-light">
+                                                                            <i class="far fa-eye"></i> Xem toa
+                                                                        </a>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                            }
+                                                    </tbody>
+                                                </table>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- /Prescription Tab -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="submit-section float-right">
+                        <a href="/Doctor/Home/Index" class="btn btn-primary">Quay lại</a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+    <!-- /Page Content -->
+
+</div>
+<!-- /Main Wrapper -->
+<!-- Add Medical Records Modal -->
+<div class="modal fade custom-modal" id="add_medical_records">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Thông tin chi tiết</h3>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            </div>
+            <form>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label>Ngày</label>
+                        <input type="text" class="form-control" value="" readonly id="mDated">
+                    </div>
+                    <div class="form-group">
+                        <label>Chẩn đoán</label>
+                        <input type="text" class="form-control" value="" readonly id="mDiagnose">
+                    </div>
+                    <div class="form-group">
+                        <label>Toa thuốc</label>
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th>Tên thuốc</th>
+                                    <th>Số lượng</th>
+                                    <th>ĐVT</th>
+                                    <th>Liều Lượng</th>
+                                    <th>Cách dùng</th>
+                                </tr>
+                            </thead>
+                            <tbody id="msheet"></tbody>
+                        </table>
+                    </div>
+                    <div class="form-group">
+                        <label>Lời khuyên</label>
+                        <input type="text" class="form-control" value="" readonly id="mAdvice">
+                    </div>
+                    <div class="form-group">
+                        <label>Lịch Hẹn</label>
+                        <input type="text" class="form-control" value="" readonly id="mAppointment">
+                    </div>
+                    <div class="submit-section text-center">
+                        <button type="button" class="btn btn-secondary submit-btn" data-dismiss="modal">OK</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- /Add Medical Records Modal -->
+<script src="/doc_assets/js/jquery.min.js"></script>
+<script src="~/doc_assets/js/moment.min.js"></script>
+<script src="~/doc_assets/js/bootstrap-datetimepicker.min.js"></script>
+<script src="/doc_assets/js/popper.min.js"></script>
+<script src="/doc_assets/js/bootstrap.min.js"></script>
+<script src="/doc_assets/plugins/theia-sticky-sidebar/ResizeSensor.js"></script>
+<script src="/doc_assets/plugins/theia-sticky-sidebar/theia-sticky-sidebar.js"></script>
+<script src="/doc_assets/js/script1.js"></script>
+<script>
+
+    var j = jQuery.noConflict();
+    j(document).ready(() => {
+        let patient = JSON.parse(localStorage.getItem('PatientChoosed'));
+        console.log(patient)
+        infoPatient.innerHTML =`<div class="pro-widget-content">
+                                <div class="profile-info-widget">
+                                    <a href="#" class="booking-doc-img">
+                                    <img src="/assets/img/patients/user-icon-jpg-28.jpg" />                                
+                                    </a>
+                                    <div class="profile-det-info">
+                                        <h3>${patient.namePatient}</h3>
+
+                                        <div class="patient-details">
+                                            <h5><b>Mã bệnh nhân :</b> ${patient.idPatient}</h5>
+                                            <h5 class="mb-0"><i class="fas fa-map-marker-alt"></i> ${patient.addP}</h5>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="patient-info">
+                                <ul>
+                                    <li>Ngày sinh <span>${moment(patient.dob).format('DD/MM/YYYY')}</span></li>
+                                    <li>Giới tính <span>${patient.sexP == true?"Nữ":"Nam"}</span></li>
+                                </ul>
+                            </div>`
+    })
+    function viewDetail(e) {
+        console.log('123')
+        let id = j(e).data('id');
+        console.log(id);
+        let pres =JSON.parse('@Html.Raw(Json.Serialize(pres))');
+        console.log(pres)
+        let m = j(e).data('content')-1;
+        console.log(m);
+        mDated.value = '';
+        mAdvice.value = '';
+        mAppointment.value = '';
+        mDiagnose.value = '';
+        console.log(id);
+        j.ajax({
+            async: false,
+            url: '/doctor/home/GetPresDetailByIdPres',
+            data: { id: id },
+            success: function (d) {
+                console.log(d);
+                if (d.length > 0) {
+                    str = ''
+                    mDated.value = moment(pres[m].inDate).format('DD/MM/YYYY');
+                    mAdvice.value = pres[m].advice;
+                    mAppointment.value = pres[m].followAppoint;
+                    mDiagnose.value = pres[m].diagnose;
+                    for (var i = 0; i < d.length; i++) {
+                        str +=`<tr><td>${i+1}</td>
+                                    <td>${d[i].nameMedicine}</td>
+                                    <td>${d[i].quantity}</td>
+                                    <td>${d[i].unit}</td>
+                                    <td>${d[i].usage}</td>
+                                    <td>${d[i].dosage}</td>
+                                </tr>`
+                    }
+                    msheet.innerHTML = str;
+                    j('#add_medical_records').modal('show');
+                } else {
+                    alert('không có dữ liệu')
+                }
+            }
+        })
+    }
+</script>

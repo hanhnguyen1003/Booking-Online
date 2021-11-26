@@ -1,0 +1,25 @@
+﻿
+@{
+    ViewData["Title"] = "PaymentConfirm";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>@ViewBag.Message</h1>
+<h2>Trang sẽ chuyển về .... trong <span id="second">5</span> Giây</h2>
+
+<script>
+    
+       
+    for (let i = 4; i >= 0; i--) {
+        sleep(1000).then(() => {
+            second.innerText = i
+            if (i == 0) {
+                patientid = JSON.parse(localStorage.getItem("PatientChoosed")).idPatient;
+                window.location.href = `/Patient/Patients/MedicineBill/${patientid}`;
+            }
+        });
+    }
+    function sleep(time) {
+        return new Promise((resolve) => setTimeout(resolve, time));
+    }
+</script>

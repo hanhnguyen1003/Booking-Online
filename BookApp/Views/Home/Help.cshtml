@@ -1,0 +1,410 @@
+﻿@{
+    Layout = "~/Areas/Patient/Views/Shared/_LayoutPA.cshtml";
+}
+<head>
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed&display=swap" rel="stylesheet">
+    <style>
+
+        h2, h3 {
+            font-family: Arial,sans-serif;
+            color: #15558d;
+            position: relative;
+            font-weight: 700;
+        }
+
+        .line {
+            width: 130px;
+        }
+
+        body {
+            margin: 0;
+            font-family: Poppins, sans-serif;
+        }
+
+        h1 {
+            color: #333;
+            font-weight: 700;
+            margin-top: 125px;
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            line-height: 23px;
+        }
+
+        .process-wrapper {
+            margin: auto;
+            max-width: 1080px;
+        }
+
+        #progress-bar-container {
+            position: relative;
+            width: 90%;
+            margin: auto;
+            height: 100px;
+            margin-top: 65px;
+        }
+        #progress-bar-container1 {
+            position: relative;
+            width: 90%;
+            margin: auto;
+            height: 100px;
+            margin-top: 65px;
+            margin-left:100px;
+        }
+
+            #progress-bar-container ul {
+                padding: 0;
+                margin: 0;
+                padding-top: 15px;
+                z-index: 9999;
+                position: absolute;
+                width: 100%;
+                margin-top: -40px
+            }
+
+            #progress-bar-container li:before {
+                content: " ";
+                display: block;
+                margin: auto;
+                width: 30px;
+                height: 30px;
+                border-radius: 50%;
+                border: solid 2px #aaa;
+                transition: all ease 0.3s;
+            }
+
+            #progress-bar-container li.active:before, #progress-bar-container li:hover:before {
+                border: solid 2px #fff;
+                background: linear-gradient(to right, #f26522 0%,#fff 100%);
+            }
+
+            #progress-bar-container li {
+                list-style: none;
+                float: left;
+                width: 20%;
+                text-align: center;
+                color: #aaa;
+                font-size: 11px;
+                cursor: pointer;
+                font-weight: 700;
+                transition: all ease 0.2s;
+                vertical-align: bottom;
+                height: 60px;
+                position: relative;
+            }
+
+                #progress-bar-container li .step-inner {
+                    position: absolute;
+                    width: 100%;
+                    bottom: 0;
+                    font-size: 14px;
+                }
+
+                #progress-bar-container li.active, #progress-bar-container li:hover {
+                    color: #444;
+                }
+
+                #progress-bar-container li:after {
+                    content: " ";
+                    display: block;
+                    width: 6px;
+                    height: 6px;
+                    background: #777;
+                    margin: auto;
+                    border: solid 7px #fff;
+                    border-radius: 50%;
+                    margin-top: 40px;
+                    box-shadow: 0 2px 13px -1px rgba(0,0,0,0.3);
+                    transition: all ease 0.2s;
+                }
+
+                #progress-bar-container li:hover:after {
+                    background: #555;
+                }
+
+                #progress-bar-container li.active:after {
+                    background: #207893;
+                }
+
+            #progress-bar-container #line {
+                width: 80%;
+                margin: auto;
+                background: #eee;
+                height: 6px;
+                position: absolute;
+                left: 10%;
+                top: 57px;
+                z-index: 1;
+                border-radius: 50px;
+                transition: all ease 0.9s;
+            }
+            #progress-bar-container #line1 {
+                width: 40%;
+                margin: auto;
+                background: #eee;
+                height: 6px;
+                position: absolute;
+                left: 10%;
+                top: 57px;
+                z-index: 1;
+                border-radius: 50px;
+                transition: all ease 0.9s;
+            }
+
+            #progress-bar-container #line-progress {
+                content: " ";
+                width: 3%;
+                height: 100%;
+                background: #207893;
+                background: linear-gradient(to right, #207893 0%,#2ea3b7 100%);
+                position: absolute;
+                z-index: 2;
+                border-radius: 50px;
+                transition: all ease 0.9s;
+            }
+            #progress-bar-container #line-progress1 {
+                content: " ";
+                width: 0%;
+                height: 100%;
+                background: #207893;
+                background: linear-gradient(to right, #207893 0%,#2ea3b7 100%);
+                position: absolute;
+                z-index: 2;
+                border-radius: 50px;
+                transition: all ease 0.9s;
+            }
+
+        #progress-content-section {
+            width: 90%;
+            margin: auto;
+            background: #f3f3f3;
+            border-radius: 4px;
+        }
+
+            #progress-content-section .section-content {
+                padding: 30px 40px;
+                text-align: center;
+            }
+
+                #progress-content-section .section-content h2 {
+                    font-size: 17px;
+                    color: #333;
+                    letter-spacing: 1px;
+                }
+
+                #progress-content-section .section-content p {
+                    font-size: 16px;
+                    line-height: 1.8em;
+                    color: #777;
+                }
+
+            #progress-content-section .section-content {
+                display: none;
+                animation: FadeInUp 700ms ease 1;
+                animation-fill-mode: forwards;
+                transform: translateY(15px);
+                opacity: 0;
+            }
+
+                #progress-content-section .section-content.active {
+                    display: block;
+                }
+
+        @@keyframes FadeInUp {
+            0% {
+                transform: translateY(15px);
+                opacity: 0;
+            }
+
+            100% {
+                transform: translateY(0px);
+                opacity: 1;
+            }
+        }
+
+        .list-choose-bank {
+            background-color: #f0eff3;
+            max-width: 85%;
+            border-radius: 5px;
+        }
+
+        .btn-dk {
+            display: inline-block;
+            background-color: #f26522;
+            color: #fff;
+            padding: 2px 40px;
+            border-radius: 3px;
+        }
+
+        .list-choose-bank li {
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: flex;
+            -webkit-box-pack: justify;
+            -ms-flex-pack: justify;
+            justify-content: space-between;
+            -webkit-box-align: center;
+            -ms-flex-align: center;
+            align-items: center;
+            min-height: auto;
+            background-color: #ffffff;
+            border: 1px solid #f0eff3;
+            margin-bottom: 10px !important;
+            border-radius: 3px;
+            font-weight: bold;
+            padding: 5px;
+        }
+
+        .container, .container-lg, .container-md, .container-sm, .container-xl {
+            max-width: 3040px;
+        }
+        
+    </style>
+</head>
+<section class="comp-section">
+    <div class="comp-header">
+        <h3 class="comp-title">HƯỚNG DẪN</h3>
+        <div class="line"></div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <h2 class="text-xl-center">HƯỚNG DẪN ĐĂNG KÝ KHÁM BỆNH</h2><br />
+                    <div class="process-wrapper">
+                        <div id="progress-bar-container">
+                            <ul>
+                                <li class="step step01 active"><div class="step-inner">Đăng nhập tài khoản</div></li>
+                                <li class="step step02"><div class="step-inner">Chọn đặt lịch khám</div></li>
+                                <li class="step step03"><div class="step-inner">Tạo hồ sơ bệnh nhân</div></li>
+                                <li class="step step04"><div class="step-inner">Chọn thông tin khám</div></li>
+                                <li class="step step05"><div class="step-inner">Chọn BHYT</div></li>
+
+                            </ul>
+                            <div id="line">
+                                <div id="line-progress"></div>
+                            </div>
+                        </div>
+                        <div id="progress-bar-container">
+                            <ul>
+
+                                <li class="step step06"><div class="step-inner">Xác nhận thông tin</div></li>
+                                <li class="step step07"><div class="step-inner">Thanh toán</div></li>
+                                <li class="step step08"><div class="step-inner">Đăng ký thành công</div></li>
+                            </ul>
+                            <div id="line1">
+                                <div id="line-progress1"></div>
+                            </div>
+                        </div>
+                        <div id="progress-content-section">
+                            <div class="section-content discovery active">
+                                <p>Chọn<b> Đăng nhập</b><i class="fas fa-arrow-right color-arr mr-2 ml-2"></i>nhập số điện thoại di động nhập code verify<i class="fas fa-arrow-right color-arr mr-2 ml-2"></i><strong> Xác nhận. </strong></p>
+                            </div>
+                            <div class="section-content strategy">
+                                <p>
+                                    Từ màn hình chính, Bệnh nhân chọn
+                                    <span class="btn-dk">
+                                        <i class="fa fa-stethoscope"></i> Đặt lịch khám
+                                    </span>
+                                </p>
+                                <p>Sau đó chọn 1 trong 2 dịch vụ </p>
+                                <p>- Đặt khám theo ngày</p>
+                                <p>- Đặt khám theo bác sĩ</p>
+                            </div>
+                            <div class="section-content creative">
+                                <p>Bệnh nhân có thể sử dụng Số Hồ Sơ đã có, hoặc tạo mới Hồ Sơ Bệnh nhân bằng cách chọn 1 trong 2 dịch vụ:</p>
+                                <p>- Đã từng khám, nhập Hồ Sơ</p>
+                                <p>- Chưa từng khám, tạo Hồ Sơ mới</p>
+                                <p>*MSBN được in trên phiếu khám bệnh, phiếu xuất viện, phiếu thanh toán ...</p>
+                                <p>vd: N18-0060xx, B08-0060xx</p>
+                            </div>
+                            <div class="section-content production">
+                                <p><u>Đặt khám theo bác sĩ</u></p>
+                                <p>- Chọn bác sĩ</p>
+                                <p>- Chọn ngày khám và giờ khám</p>
+                                <p><u>Đặt khám theo ngày</u> </p>
+                                <p>- Chọn ngày khám</p>
+                                <p>- Chọn chuyên khoa</p>
+                                <p>- Chọn bác sĩ và giờ khám</p>
+                            </div>
+                            <div class="section-content analysis">
+                                <p>Chọn hình thức BHYT</p>
+                                <p>BV ĐHYD chỉ chấp nhận 2 trường hợp có bảo hiểm</p>
+                                <p>- Có giấy chuyển tuyến BHYT đúng tuyến BV ĐHYD</p>
+                                <p>- Tái khám theo hẹn trên toa thuốc BHYT của BV ĐHYD</p>
+                                <p>Các trường hợp còn lại, sẽ không được hưởng BHYT tại BV ĐHYD</p>
+                            </div>
+                            <div class="section-content sigh">
+                                <p>Xác nhận lại thông tin đã đăng ký</p>
+                                <p>Ở bước này : BN có thể chọn " Đăng ký thêm chuyên khoa " , để đặt khám thêm 1 chuyên khoa khác .</p>
+                            </div>
+                            <div class="section-content key">
+                                <p>Chọn 1 trong các hình thức thanh toán và thực hiện thanh toán</p>
+                                <ul class="list-choose-bank">
+                                    <li>Thanh toán bằng thẻ khám bệnh</li>
+                                    <li>Thanh toán bằng Thẻ quốc tế Visa , Master ,JCB</li>
+                                    <li>Thanh toán bằng Thẻ ATM nội địa / Internet Banking</li>
+                                </ul>
+                                <p><b>*Đối với ATM nội địa & Thẻ khám bệnh cần phải kích hoạt internet banking để thanh toán</b></p>
+                            </div>
+                            <div class="section-content suc">
+                                <p>Sau khi thanh toán thành công, bệnh nhân sẽ nhận được phiếu khám bệnh với thông tin tin đã đăng ký (Trên phần mềm, email & tin nhắn SMS)</p>
+                                <p>Trường hợp bị trừ tiền nhưng không nhận được phiếu khám bệnh, vui lòng liên hệ số điện thoại:<b>0977129155</b></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+<script>
+
+    $(".step").click(function () {
+        $(this).addClass("active").prevAll().addClass("active");
+        $(this).nextAll().removeClass("active");
+    });
+
+    $(".step01").click(function () {
+        $("#line-progress").css("width", "0%");
+        $(".discovery").addClass("active").siblings().removeClass("active");
+    });
+
+    $(".step02").click(function () {
+        $("#line-progress").css("width", "25%");
+        $(".strategy").addClass("active").siblings().removeClass("active");
+    });
+
+    $(".step03").click(function () {
+        $("#line-progress").css("width", "50%");
+        $(".creative").addClass("active").siblings().removeClass("active");
+    });
+
+    $(".step04").click(function () {
+        $("#line-progress").css("width", "75%");
+        $(".production").addClass("active").siblings().removeClass("active");
+    });
+
+    $(".step05").click(function () {
+        $("#line-progress").css("width", "100%");
+        $(".analysis").addClass("active").siblings().removeClass("active");
+    });
+    $(".step06").click(function () {
+        $("#line-progress1").css("width", "0%");
+        $(".sigh").addClass("active").siblings().removeClass("active");
+    });
+    $(".step07").click(function () {
+        $("#line-progress1").css("width", "25%");
+        $(".key").addClass("active").siblings().removeClass("active");
+    });
+    $(".step08").click(function () {
+        $("#line-progress1").css("width", "100%");
+        $(".suc").addClass("active").siblings().removeClass("active");
+    });
+
+
+</script>
+

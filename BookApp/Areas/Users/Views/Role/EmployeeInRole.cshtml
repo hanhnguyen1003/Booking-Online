@@ -1,0 +1,45 @@
+﻿@model Employee
+@{
+    ViewData["Title"] = "EmployeeInRole";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Phân Quyền</h1>
+@*<input type="hidden" value="@Model.IdEmp" id="idemp" />*@
+<table class="table table-bordered">
+    <tr>
+        <th>Quyền</th>
+        <th>Kích hoạt</th>
+    </tr>
+    <tbody>
+        @foreach (var item in Model.Roles)
+        {
+            <tr>
+                <td>@item.RoleName</td>
+                <td>
+                    @if (item.Checked)
+                    {
+                        <input checked="checked" type="checkbox" name="chk" class="chk" value="@item.RoleId" />
+
+                    }
+                    else
+                    {
+                        <input type="checkbox" name="chk" class="chk" value="@item.RoleId" />
+
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<div style="float:right;padding-top:10px"><a href="/Users/" class="btn btn-success mx-4" >Quay lại</a></div>
+<script>
+    var j = jQuery.noConflict();
+    j('.chk').on('click', function(){
+        let roleid = j(this).val();
+        let idemp = "@Model.IdEmp";
+        j.post('/users/role/AddEmployeeInRole', { roleId: roleid, idEmp: idemp }, (d) => {
+            console.log(d);
+        })
+    })
+</script>

@@ -1,0 +1,45 @@
+﻿@model List<Employee>
+@{
+    ViewData["Title"] = "ByDoctor";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<head>
+    <style>
+        thead tr th:last-child{
+            border:none;
+        }
+    </style>
+</head>
+<h1>Chọn khám theo bác sĩ</h1>
+<div class="container-fluid">
+    <table class="table table-bordered table-responsive">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Trình độ</th>
+                <th>Tên Bác Sĩ</th>
+                <th>Giới tính</th>
+                <th>Chuyên khoa</th>
+                <th>Lịch Khám</th>
+                <th>Giá tiền</th> 
+                <th></th>
+            </tr>
+        </thead>
+        <tbody id="sheet">
+          @for (int i = 0; i < Model.Count; i++)
+          {
+            <tr>
+                <td>@(i+1)</td>
+                <td>@Model[i].EduName</td>
+                <td>@Model[i].NameEmp</td>
+                <td>@Model[i].SexE</td>
+                <td>@Model[i].DeptName</td>
+
+                <td>
+            </tr>
+          }
+
+        </tbody>
+    </table>
+</div>
+
